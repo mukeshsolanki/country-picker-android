@@ -1,3 +1,4 @@
 <resources>
   <string name="app_name">Country-Picker</string>
+  <string name="pick_country">Pick Country</string>
 </resources>

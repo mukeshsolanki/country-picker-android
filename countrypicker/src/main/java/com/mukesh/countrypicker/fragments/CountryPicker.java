@@ -143,7 +143,8 @@ public class CountryPicker extends DialogFragment implements Comparator<Country>
       @Override public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         if (listener != null) {
           Country country = selectedCountriesList.get(position);
-          listener.onSelectCountry(country.getName(), country.getCode(), country.getDialCode());
+          listener.onSelectCountry(country.getName(), country.getCode(), country.getDialCode(),
+              country.getFlag());
         }
       }
     });

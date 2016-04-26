@@ -8,6 +8,7 @@ public class Country {
   private String code;
   private String name;
   private String dialCode;
+  private int flag;
 
   public String getDialCode() {
     return dialCode;
@@ -31,5 +32,13 @@ public class Country {
 
   public void setName(String name) {
     this.name = name;
+  }
+
+  public int getFlag() {
+    return flag;
+  }
+
+  public void setFlag(int flag) {
+    this.flag = flag;
   }
 }

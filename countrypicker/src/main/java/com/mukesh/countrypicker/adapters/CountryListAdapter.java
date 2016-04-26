@@ -73,7 +73,9 @@ public class CountryListAdapter extends BaseAdapter {
     cell.textView.setText(country.getName());
 
     String drawableName = "flag_" + country.getCode().toLowerCase(Locale.ENGLISH);
-    cell.imageView.setImageResource(getResId(drawableName));
+    int drawableId = getResId(drawableName);
+    country.setFlag(drawableId);
+    cell.imageView.setImageResource(drawableId);
     return cellView;
   }
 

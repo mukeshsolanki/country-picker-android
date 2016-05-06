@@ -12,7 +12,7 @@ ext {
   siteUrl = 'https://github.com/mukeshsolanki/country-picker'
   gitUrl = 'https://github.com/mukeshsolanki/country-picker.git'
 
-  libraryVersion = '0.0.2'
+  libraryVersion = '0.0.4'
 
   developerId = 'mukeshsolanki'
   developerName = 'Mukesh Solanki'
@@ -29,8 +29,8 @@ android {
   defaultConfig {
     minSdkVersion 9
     targetSdkVersion 23
-    versionCode 1
-    versionName "0.0.2"
+    versionCode 2
+    versionName "0.0.4"
   }
   buildTypes {
     release {

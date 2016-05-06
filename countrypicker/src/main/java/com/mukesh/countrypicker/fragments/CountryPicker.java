@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
+import android.telephony.TelephonyManager;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Base64;
@@ -13,6 +14,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.Toast;
 import com.mukesh.countrypicker.R;
 import com.mukesh.countrypicker.adapters.CountryListAdapter;
 import com.mukesh.countrypicker.interfaces.CountryPickerListener;
@@ -33,14 +35,13 @@ public class CountryPicker extends DialogFragment implements Comparator<Country>
 
   private EditText searchEditText;
   private ListView countryListView;
-
   private CountryListAdapter adapter;
-
   private List<Country> allCountriesList;
-
   private List<Country> selectedCountriesList;
-
   private CountryPickerListener listener;
+  public static final String USER_COUNTRY_CODE = "country_code";
+  public static final String USER_COUNTRY_FLAG = "flag_res_id";
+  private String USER_COUNTRY_DIAL_CODE = "country_dial_code";
 
   public void setListener(CountryPickerListener listener) {
     this.listener = listener;
@@ -57,8 +58,7 @@ public class CountryPicker extends DialogFragment implements Comparator<Country>
   public static Currency getCurrencyCode(String countryCode) {
     try {
       return Currency.getInstance(new Locale("en", countryCode));
-    } catch (Exception e) {
-
+    } catch (Exception ignored) {
     }
     return null;
   }
@@ -167,17 +167,50 @@ public class CountryPicker extends DialogFragment implements Comparator<Country>
 
   @SuppressLint("DefaultLocale") private void search(String text) {
     selectedCountriesList.clear();
-
     for (Country country : allCountriesList) {
       if (country.getName().toLowerCase(Locale.ENGLISH).contains(text.toLowerCase())) {
         selectedCountriesList.add(country);
       }
     }
-
     adapter.notifyDataSetChanged();
   }
 
   @Override public int compare(Country lhs, Country rhs) {
     return lhs.getName().compareTo(rhs.getName());
+  }
+
+  public Bundle getUserCountryInfo(Context context) {
+    String countryIsoCode, countryDialCode;
+    int flagRes;
+    TelephonyManager telephonyManager =
+        (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
+    if (!(telephonyManager.getSimState() == TelephonyManager.SIM_STATE_ABSENT)) {
+      countryIsoCode = telephonyManager.getSimCountryIso();
+      countryDialCode = telephonyManager.getLine1Number();
+    } else {
+      Toast.makeText(context, R.string.no_sim_detected, Toast.LENGTH_SHORT).show();
+      countryIsoCode = "AF";
+      countryDialCode = "93";
+    }
+    int flagResId = getFlagResId(countryIsoCode);
+    if (flagResId != 0) {
+      flagRes = flagResId;
+    } else {
+      flagRes = R.drawable.flag_af;
+    }
+    Bundle userSimBundle = new Bundle();
+    userSimBundle.putString(USER_COUNTRY_CODE, countryIsoCode);
+    userSimBundle.putInt(USER_COUNTRY_FLAG, flagRes);
+    userSimBundle.putString(USER_COUNTRY_DIAL_CODE, countryDialCode);
+    return userSimBundle;
+  }
+
+  private int getFlagResId(String drawable) {
+    try {
+      return getResources().getIdentifier("flag_" + drawable.toLowerCase(Locale.ENGLISH),
+          "drawable", getContext().getPackageName());
+    } catch (Exception e) {
+      return 0;
+    }
   }
 }

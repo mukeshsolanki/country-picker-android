@@ -14,7 +14,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ListView;
-import android.widget.Toast;
+import com.mukesh.countrypicker.Constants;
 import com.mukesh.countrypicker.R;
 import com.mukesh.countrypicker.adapters.CountryListAdapter;
 import com.mukesh.countrypicker.interfaces.CountryPickerListener;
@@ -39,6 +39,7 @@ public class CountryPicker extends DialogFragment implements Comparator<Country>
   private List<Country> allCountriesList;
   private List<Country> selectedCountriesList;
   private CountryPickerListener listener;
+  private static Context mContext;
   public static final String USER_COUNTRY_CODE = "country_code";
   public static final String USER_COUNTRY_FLAG = "flag_res_id";
   public static final String USER_COUNTRY_DIAL_CODE = "country_dial_code";
@@ -66,31 +67,23 @@ public class CountryPicker extends DialogFragment implements Comparator<Country>
   private List<Country> getAllCountries() {
     if (allCountriesList == null) {
       try {
-        allCountriesList = new ArrayList<Country>();
-
-        String allCountriesCode = readEncodedJsonString(getActivity());
-
-        JSONArray countrArray = new JSONArray(allCountriesCode);
-
-        for (int i = 0; i < countrArray.length(); i++) {
-          JSONObject jsonObject = countrArray.getJSONObject(i);
+        allCountriesList = new ArrayList<>();
+        String allCountriesCode = readEncodedJsonString();
+        JSONArray countryArray = new JSONArray(allCountriesCode);
+        for (int i = 0; i < countryArray.length(); i++) {
+          JSONObject jsonObject = countryArray.getJSONObject(i);
           String countryName = jsonObject.getString("name");
           String countryDialCode = jsonObject.getString("dial_code");
           String countryCode = jsonObject.getString("code");
-
           Country country = new Country();
           country.setCode(countryCode);
           country.setName(countryName);
           country.setDialCode(countryDialCode);
           allCountriesList.add(country);
         }
-
         Collections.sort(allCountriesList, this);
-
-        selectedCountriesList = new ArrayList<Country>();
+        selectedCountriesList = new ArrayList<>();
         selectedCountriesList.addAll(allCountriesList);
-
-        // Return
         return allCountriesList;
       } catch (Exception e) {
         e.printStackTrace();
@@ -99,9 +92,8 @@ public class CountryPicker extends DialogFragment implements Comparator<Country>
     return null;
   }
 
-  private static String readEncodedJsonString(Context context) throws java.io.IOException {
-    String base64 = context.getResources().getString(R.string.countries_code);
-    byte[] data = Base64.decode(base64, Base64.DEFAULT);
+  private static String readEncodedJsonString() throws java.io.IOException {
+    byte[] data = Base64.decode(Constants.ENCODED_COUNTRY_CODE, Base64.DEFAULT);
     return new String(data, "UTF-8");
   }
 
@@ -113,15 +105,14 @@ public class CountryPicker extends DialogFragment implements Comparator<Country>
     Bundle bundle = new Bundle();
     bundle.putString("dialogTitle", dialogTitle);
     picker.setArguments(bundle);
+    picker.getAllCountries();
+    mContext = picker.getContext();
     return picker;
   }
 
   @Override public View onCreateView(LayoutInflater inflater, ViewGroup container,
       Bundle savedInstanceState) {
     View view = inflater.inflate(R.layout.country_picker, null);
-
-    getAllCountries();
-
     Bundle args = getArguments();
     if (args != null) {
       String dialogTitle = args.getString("dialogTitle");
@@ -179,38 +170,28 @@ public class CountryPicker extends DialogFragment implements Comparator<Country>
     return lhs.getName().compareTo(rhs.getName());
   }
 
-  public Bundle getUserCountryInfo(Context context) {
-    String countryIsoCode, countryDialCode;
-    int flagRes;
+  public Country getUserCountryInfo(Context context) {
+    String countryIsoCode;
     TelephonyManager telephonyManager =
         (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
     if (!(telephonyManager.getSimState() == TelephonyManager.SIM_STATE_ABSENT)) {
       countryIsoCode = telephonyManager.getSimCountryIso();
-      countryDialCode = telephonyManager.getLine1Number();
-    } else {
-      Toast.makeText(context, R.string.no_sim_detected, Toast.LENGTH_SHORT).show();
-      countryIsoCode = "AF";
-      countryDialCode = "93";
+      for (int i = 0; i < allCountriesList.size(); i++) {
+        Country country = allCountriesList.get(i);
+        if (country.getCode().equalsIgnoreCase(countryIsoCode)) {
+          return country;
+        }
+      }
     }
-    int flagResId = getFlagResId(countryIsoCode);
-    if (flagResId != 0) {
-      flagRes = flagResId;
-    } else {
-      flagRes = R.drawable.flag_af;
-    }
-    Bundle userSimBundle = new Bundle();
-    userSimBundle.putString(USER_COUNTRY_CODE, countryIsoCode);
-    userSimBundle.putInt(USER_COUNTRY_FLAG, flagRes);
-    userSimBundle.putString(USER_COUNTRY_DIAL_CODE, countryDialCode);
-    return userSimBundle;
+    return afghanistan();
   }
 
-  private int getFlagResId(String drawable) {
-    try {
-      return getResources().getIdentifier("flag_" + drawable.toLowerCase(Locale.ENGLISH),
-          "drawable", getContext().getPackageName());
-    } catch (Exception e) {
-      return 0;
-    }
+  private Country afghanistan() {
+    Country country = new Country();
+    country.setCode("AF");
+    country.setName("Afghanistan");
+    country.setDialCode("93");
+    country.setFlag(R.drawable.flag_af);
+    return country;
   }
 }

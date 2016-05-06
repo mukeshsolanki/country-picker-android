@@ -40,7 +40,6 @@ public class MainActivity extends AppCompatActivity {
       }
     });
 
-    Log.d("User Info=>",
-        picker.getUserCountryInfo(this).getString(CountryPicker.USER_COUNTRY_CODE));
+    Log.d("User Info=>", picker.getUserCountryInfo(this).getName());
   }
 }

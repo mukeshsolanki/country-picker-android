@@ -39,10 +39,6 @@ public class CountryPicker extends DialogFragment implements Comparator<Country>
   private List<Country> allCountriesList;
   private List<Country> selectedCountriesList;
   private CountryPickerListener listener;
-  private static Context mContext;
-  public static final String USER_COUNTRY_CODE = "country_code";
-  public static final String USER_COUNTRY_FLAG = "flag_res_id";
-  public static final String USER_COUNTRY_DIAL_CODE = "country_dial_code";
 
   public void setListener(CountryPickerListener listener) {
     this.listener = listener;
@@ -106,7 +102,6 @@ public class CountryPicker extends DialogFragment implements Comparator<Country>
     bundle.putString("dialogTitle", dialogTitle);
     picker.setArguments(bundle);
     picker.getAllCountries();
-    mContext = picker.getContext();
     return picker;
   }
 

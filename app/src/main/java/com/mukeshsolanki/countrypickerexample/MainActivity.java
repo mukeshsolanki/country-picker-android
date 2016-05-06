@@ -9,37 +9,56 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import com.mukesh.countrypicker.fragments.CountryPicker;
 import com.mukesh.countrypicker.interfaces.CountryPickerListener;
+import com.mukesh.countrypicker.models.Country;
 
 public class MainActivity extends AppCompatActivity {
-  private Button mPickCountry;
-  private TextView mCountryName, mCountryIso, mCountryDialCode;
-  private ImageView mFlag;
+
+  private TextView mCountryNameTextView, mCountryIsoCodeTextView, mCountryDialCodeTextView;
+  private ImageView mCountryFlagImageView;
+  private Button mPickCountryButton;
+  private CountryPicker mCountryPicker;
 
   @Override protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_main);
-    mPickCountry = (Button) findViewById(R.id.pick_country_button);
-    mCountryName = (TextView) findViewById(R.id.country_name_text_view);
-    mCountryIso = (TextView) findViewById(R.id.country_iso_text_view);
-    mCountryDialCode = (TextView) findViewById(R.id.country_dial_code_text_view);
-    mFlag = (ImageView) findViewById(R.id.country_flag_image_view);
-    final CountryPicker picker = CountryPicker.newInstance("Select Country");
-    mPickCountry.setOnClickListener(new View.OnClickListener() {
-      @Override public void onClick(View v) {
-        picker.show(getSupportFragmentManager(), "COUNTRY_CODE_PICKER");
-      }
-    });
-    picker.setListener(new CountryPickerListener() {
+    initialize();
+    setListener();
+  }
+
+  private void setListener() {
+    mCountryPicker.setListener(new CountryPickerListener() {
       @Override public void onSelectCountry(String name, String code, String dialCode,
           int flagDrawableResID) {
-        mCountryName.setText(name);
-        mCountryIso.setText(code);
-        mCountryDialCode.setText(dialCode);
-        mFlag.setImageResource(flagDrawableResID);
-        picker.dismiss();
+        mCountryNameTextView.setText(name);
+        mCountryIsoCodeTextView.setText(code);
+        mCountryDialCodeTextView.setText(dialCode);
+        mCountryFlagImageView.setImageResource(flagDrawableResID);
+        mCountryPicker.dismiss();
       }
     });
+    mPickCountryButton.setOnClickListener(new View.OnClickListener() {
+      @Override public void onClick(View v) {
+        mCountryPicker.show(getSupportFragmentManager(), "COUNTRY_PICKER");
+      }
+    });
+    getUserCountryInfo();
+  }
 
-    Log.d("User Info=>", picker.getUserCountryInfo(this).getName());
+  private void initialize() {
+    mCountryNameTextView = (TextView) findViewById(R.id.selected_country_name_text_view);
+    mCountryIsoCodeTextView = (TextView) findViewById(R.id.selected_country_iso_text_view);
+    mCountryDialCodeTextView = (TextView) findViewById(R.id.selected_country_dial_code_text_view);
+    mPickCountryButton = (Button) findViewById(R.id.country_picker_button);
+    mCountryFlagImageView = (ImageView) findViewById(R.id.selected_country_flag_image_view);
+    mCountryPicker = CountryPicker.newInstance("Select Country");
+  }
+
+  private void getUserCountryInfo() {
+    Country country = mCountryPicker.getUserCountryInfo(this);
+    Log.d("Dummy=>", String.valueOf(country.getFlag()));
+    mCountryFlagImageView.setImageResource(country.getFlag());
+    mCountryDialCodeTextView.setText(country.getDialCode());
+    mCountryIsoCodeTextView.setText(country.getCode());
+    mCountryNameTextView.setText(country.getName());
   }
 }

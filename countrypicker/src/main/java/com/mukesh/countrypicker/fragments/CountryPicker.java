@@ -39,6 +39,7 @@ public class CountryPicker extends DialogFragment implements Comparator<Country>
   private List<Country> allCountriesList;
   private List<Country> selectedCountriesList;
   private CountryPickerListener listener;
+  private Context context;
 
   public void setListener(CountryPickerListener listener) {
     this.listener = listener;
@@ -101,7 +102,6 @@ public class CountryPicker extends DialogFragment implements Comparator<Country>
     Bundle bundle = new Bundle();
     bundle.putString("dialogTitle", dialogTitle);
     picker.setArguments(bundle);
-    picker.getAllCountries();
     return picker;
   }
 
@@ -117,7 +117,7 @@ public class CountryPicker extends DialogFragment implements Comparator<Country>
       int height = getResources().getDimensionPixelSize(R.dimen.cp_dialog_height);
       getDialog().getWindow().setLayout(width, height);
     }
-
+    getAllCountries();
     searchEditText = (EditText) view.findViewById(R.id.country_code_picker_search);
     countryListView = (ListView) view.findViewById(R.id.country_code_picker_listview);
 
@@ -166,6 +166,8 @@ public class CountryPicker extends DialogFragment implements Comparator<Country>
   }
 
   public Country getUserCountryInfo(Context context) {
+    this.context = context;
+    getAllCountries();
     String countryIsoCode;
     TelephonyManager telephonyManager =
         (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
@@ -174,6 +176,7 @@ public class CountryPicker extends DialogFragment implements Comparator<Country>
       for (int i = 0; i < allCountriesList.size(); i++) {
         Country country = allCountriesList.get(i);
         if (country.getCode().equalsIgnoreCase(countryIsoCode)) {
+          country.setFlag(getFlagResId(country.getCode()));
           return country;
         }
       }
@@ -188,5 +191,16 @@ public class CountryPicker extends DialogFragment implements Comparator<Country>
     country.setDialCode("93");
     country.setFlag(R.drawable.flag_af);
     return country;
+  }
+
+  private int getFlagResId(String drawable) {
+    try {
+      return context.getResources()
+          .getIdentifier("flag_" + drawable.toLowerCase(Locale.ENGLISH), "drawable",
+              context.getPackageName());
+    } catch (Exception e) {
+      e.printStackTrace();
+      return 0;
+    }
   }
 }

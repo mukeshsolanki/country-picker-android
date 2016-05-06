@@ -1,42 +1,99 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.mukeshsolanki.countrypickerexample.MainActivity"
+    android:padding="@dimen/activity_vertical_margin"
     >
-
   <android.support.v7.widget.AppCompatButton
-      android:id="@+id/pick_country_button"
-      android:layout_width="wrap_content"
+      android:id="@+id/country_picker_button"
+      android:layout_width="match_parent"
       android:layout_height="wrap_content"
       android:text="@string/pick_country"
       />
-
-  <android.support.v7.widget.AppCompatTextView
-      android:id="@+id/country_name_text_view"
-      android:layout_width="wrap_content"
+  <LinearLayout
+      android:layout_width="match_parent"
       android:layout_height="wrap_content"
-      />
-  <android.support.v7.widget.AppCompatTextView
-      android:id="@+id/country_iso_text_view"
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
-      />
-  <android.support.v7.widget.AppCompatTextView
-      android:id="@+id/country_dial_code_text_view"
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
-      />
-  <android.support.v7.widget.AppCompatImageView
-      android:id="@+id/country_flag_image_view"
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
-      />
-</LinearLayout>
+      android:layout_below="@+id/country_picker_button"
+      android:orientation="vertical"
+      >
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        >
+      <android.support.v7.widget.AppCompatTextView
+          android:layout_width="0dp"
+          android:layout_height="wrap_content"
+          android:layout_weight="1"
+          android:text="Country Name"
+          />
+      <android.support.v7.widget.AppCompatTextView
+          android:id="@+id/selected_country_name_text_view"
+          android:layout_width="0dp"
+          android:layout_height="wrap_content"
+          android:layout_weight="1"
+          tools:text="Selected Country Name"
+          />
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        >
+      <android.support.v7.widget.AppCompatTextView
+          android:layout_width="0dp"
+          android:layout_height="wrap_content"
+          android:layout_weight="1"
+          android:text="Country ISO Code"
+          />
+      <android.support.v7.widget.AppCompatTextView
+          android:id="@+id/selected_country_iso_text_view"
+          android:layout_width="0dp"
+          android:layout_height="wrap_content"
+          android:layout_weight="1"
+          tools:text="Selected Country ISO Code"
+          />
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        >
+      <android.support.v7.widget.AppCompatTextView
+          android:layout_width="0dp"
+          android:layout_height="wrap_content"
+          android:layout_weight="1"
+          android:text="Country Dial Code"
+          />
+      <android.support.v7.widget.AppCompatTextView
+          android:id="@+id/selected_country_dial_code_text_view"
+          android:layout_width="0dp"
+          android:layout_height="wrap_content"
+          android:layout_weight="1"
+          tools:text="Selected Country Dial Code"
+          />
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        >
+      <android.support.v7.widget.AppCompatTextView
+          android:layout_width="0dp"
+          android:layout_height="wrap_content"
+          android:layout_weight="1"
+          android:text="Country Flag"
+          />
+      <LinearLayout
+          android:layout_width="0dp"
+          android:layout_height="wrap_content"
+          android:layout_weight="1"
+          >
+        <android.support.v7.widget.AppCompatImageView
+            android:id="@+id/selected_country_flag_image_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:src="@mipmap/ic_launcher"
+            />
+      </LinearLayout>
+    </LinearLayout>
+  </LinearLayout>
+</RelativeLayout>

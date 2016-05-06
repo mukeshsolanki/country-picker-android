@@ -41,7 +41,7 @@ public class CountryPicker extends DialogFragment implements Comparator<Country>
   private CountryPickerListener listener;
   public static final String USER_COUNTRY_CODE = "country_code";
   public static final String USER_COUNTRY_FLAG = "flag_res_id";
-  private String USER_COUNTRY_DIAL_CODE = "country_dial_code";
+  public static final String USER_COUNTRY_DIAL_CODE = "country_dial_code";
 
   public void setListener(CountryPickerListener listener) {
     this.listener = listener;

@@ -2,7 +2,6 @@ package com.mukeshsolanki.countrypickerexample;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -55,7 +54,6 @@ public class MainActivity extends AppCompatActivity {
 
   private void getUserCountryInfo() {
     Country country = mCountryPicker.getUserCountryInfo(this);
-    Log.d("Dummy=>", String.valueOf(country.getFlag()));
     mCountryFlagImageView.setImageResource(country.getFlag());
     mCountryDialCodeTextView.setText(country.getDialCode());
     mCountryIsoCodeTextView.setText(country.getCode());

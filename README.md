@@ -2,7 +2,7 @@
 
 CountryPicker is a simple library that can be show a country picker. See the example to see more detail.
 
-<img src="https://raw.githubusercontent.com/mukeshsolanki/country-picker/master/Screenshot_20160506-152951.png" width="480" height="800" />
+<img src="https://raw.githubusercontent.com/mukeshsolanki/country-picker-android/master/Screenshot_20160506-152951.png" width="480" height="800" />
 
 ## How to use
 

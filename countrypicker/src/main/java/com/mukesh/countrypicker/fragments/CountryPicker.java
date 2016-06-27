@@ -25,6 +25,9 @@ import java.util.Comparator;
 import java.util.Currency;
 import java.util.List;
 import java.util.Locale;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -32,6 +35,8 @@ import org.json.JSONObject;
  * Created by mukesh on 25/04/16.
  */
 public class CountryPicker extends DialogFragment implements Comparator<Country> {
+
+  private static final Logger LOGGER = Logger.getLogger(CountryPicker.class.getName());
 
   private EditText searchEditText;
   private ListView countryListView;
@@ -57,6 +62,7 @@ public class CountryPicker extends DialogFragment implements Comparator<Country>
     try {
       return Currency.getInstance(new Locale("en", countryCode));
     } catch (Exception ignored) {
+      LOGGER.log(Level.WARNING,ignored.getMessage(),ignored);
     }
     return null;
   }
@@ -83,7 +89,7 @@ public class CountryPicker extends DialogFragment implements Comparator<Country>
         selectedCountriesList.addAll(allCountriesList);
         return allCountriesList;
       } catch (Exception e) {
-        e.printStackTrace();
+        LOGGER.log(Level.WARNING,e.getMessage(),e);
       }
     }
     return null;
@@ -199,7 +205,7 @@ public class CountryPicker extends DialogFragment implements Comparator<Country>
           .getIdentifier("flag_" + drawable.toLowerCase(Locale.ENGLISH), "drawable",
               context.getPackageName());
     } catch (Exception e) {
-      e.printStackTrace();
+      LOGGER.log(Level.WARNING,e.getMessage(),e);
       return 0;
     }
   }

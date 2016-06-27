@@ -86,7 +86,7 @@ public class CountryPicker extends DialogFragment implements Comparator<Country>
         e.printStackTrace();
       }
     }
-    return null;
+    return Collections.emptyList();
   }
 
   private static String readEncodedJsonString() throws java.io.IOException {

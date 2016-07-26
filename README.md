@@ -1,3 +1,4 @@
+[ ![Download](https://api.bintray.com/packages/mukeshsolanki/maven/countrypicker/images/download.svg) ](https://bintray.com/mukeshsolanki/maven/countrypicker/_latestVersion)
 # Country Picker for Android
 
 CountryPicker is a simple library that can be show a country picker. See the example to see more detail.

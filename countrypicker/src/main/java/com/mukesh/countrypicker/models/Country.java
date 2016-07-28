@@ -1,5 +1,9 @@
 package com.mukesh.countrypicker.models;
 
+import android.text.TextUtils;
+
+import java.util.Locale;
+
 /**
  * Created by mukesh on 25/04/16.
  */
@@ -24,14 +28,13 @@ public class Country {
 
   public void setCode(String code) {
     this.code = code;
+    if (TextUtils.isEmpty(name)) {
+      name = new Locale("", code).getDisplayName();
+    }
   }
 
   public String getName() {
     return name;
-  }
-
-  public void setName(String name) {
-    this.name = name;
   }
 
   public int getFlag() {

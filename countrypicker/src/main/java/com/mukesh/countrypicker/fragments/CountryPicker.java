@@ -188,7 +188,7 @@ public class CountryPicker extends DialogFragment implements Comparator<Country>
     Country country = new Country();
     country.setCode("AF");
     country.setName("Afghanistan");
-    country.setDialCode("93");
+    country.setDialCode("+93");
     country.setFlag(R.drawable.flag_af);
     return country;
   }

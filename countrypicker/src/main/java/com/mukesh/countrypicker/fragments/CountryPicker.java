@@ -14,19 +14,22 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ListView;
+
 import com.mukesh.countrypicker.Constants;
 import com.mukesh.countrypicker.R;
 import com.mukesh.countrypicker.adapters.CountryListAdapter;
 import com.mukesh.countrypicker.interfaces.CountryPickerListener;
 import com.mukesh.countrypicker.models.Country;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Currency;
 import java.util.List;
 import java.util.Locale;
-import org.json.JSONArray;
-import org.json.JSONObject;
 
 /**
  * Created by mukesh on 25/04/16.
@@ -69,12 +72,10 @@ public class CountryPicker extends DialogFragment implements Comparator<Country>
         JSONArray countryArray = new JSONArray(allCountriesCode);
         for (int i = 0; i < countryArray.length(); i++) {
           JSONObject jsonObject = countryArray.getJSONObject(i);
-          String countryName = jsonObject.getString("name");
           String countryDialCode = jsonObject.getString("dial_code");
           String countryCode = jsonObject.getString("code");
           Country country = new Country();
           country.setCode(countryCode);
-          country.setName(countryName);
           country.setDialCode(countryDialCode);
           allCountriesList.add(country);
         }
@@ -187,7 +188,6 @@ public class CountryPicker extends DialogFragment implements Comparator<Country>
   private Country afghanistan() {
     Country country = new Country();
     country.setCode("AF");
-    country.setName("Afghanistan");
     country.setDialCode("+93");
     country.setFlag(R.drawable.flag_af);
     return country;

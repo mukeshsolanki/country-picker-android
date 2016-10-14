@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="UTF-8">
+    <title>Country-picker-android by mukeshsolanki</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="stylesheets/normalize.css" media="screen">
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="stylesheets/github-light.css" media="screen">
+  </head>
+  <body>
+    <section class="page-header">
+      <h1 class="project-name">Country-picker-android</h1>
+      <h2 class="project-tagline">A simple library that displays a beautiful list of all the countries allowing the user to pick the country he wishes and provide details like country code, iso code name and flag.</h2>
+      <a href="https://github.com/mukeshsolanki/country-picker-android" class="btn">View on GitHub</a>
+      <a href="https://github.com/mukeshsolanki/country-picker-android/zipball/master" class="btn">Download .zip</a>
+      <a href="https://github.com/mukeshsolanki/country-picker-android/tarball/master" class="btn">Download .tar.gz</a>
+    </section>
+
+    <section class="main-content">
+      <h1 align="center">
+<a id="country-picker-for-android" class="anchor" href="#country-picker-for-android" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Country Picker for Android</h1>
+
+<p align="center">
+  <a href="https://android-arsenal.com/api?level=9"> <img src="https://img.shields.io/badge/API-9%2B-blue.svg?style=flat"></a>
+  <a href="https://jitpack.io/#mukeshsolanki/country-picker-android"> <img src="https://jitpack.io/v/mukeshsolanki/country-picker-android.svg"></a>
+  <a href="http://android-arsenal.com/details/3/3561"> <img src="https://img.shields.io/badge/Android%20Arsenal-Country%20Picker-brightgreen.svg?style=flat"></a>
+  <a href="https://travis-ci.org/mukeshsolanki/country-picker-android"> <img src="https://travis-ci.org/mukeshsolanki/country-picker-android.svg?branch=master"></a>
+  <a href="https://www.paypal.me/mukeshsolanki"> <img src="https://img.shields.io/badge/paypal-donate-yellow.svg"></a>
+  <br><br>CountryPicker is a simple library that can be show a country picker. See the example to see more detail.
+</p>
+
+<p><img src="https://raw.githubusercontent.com/mukeshsolanki/country-picker-android/master/Screenshot_20160506-152951.png" width="480" height="800"></p>
+
+<h2>
+<a id="how-to-use" class="anchor" href="#how-to-use" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>How to use</h2>
+
+<p>Integrating the project is simple a refined all you need to do is follow the below steps</p>
+
+<p>Step 1. Add the JitPack repository to your build file. Add it in your root build.gradle at the end of repositories:</p>
+
+<div class="highlight highlight-source-java"><pre>allprojects {
+  repositories {
+    <span class="pl-c1">...</span>
+    maven { url <span class="pl-s"><span class="pl-pds">"</span>https://jitpack.io<span class="pl-pds">"</span></span> }
+  }
+}</pre></div>
+
+<p>Step 2. Add the dependency</p>
+
+<div class="highlight highlight-source-java"><pre>dependencies {
+        compile <span class="pl-s"><span class="pl-pds">'</span>com.github.mukeshsolanki:country-picker-android:1.1.6<span class="pl-pds">'</span></span>
+}</pre></div>
+
+<p>Once the project has been added to gradle the user can implement this with easy.</p>
+
+<div class="highlight highlight-source-java"><pre><span class="pl-smi">CountryPicker</span> picker <span class="pl-k">=</span> <span class="pl-smi">CountryPicker</span><span class="pl-k">.</span>newInstance(<span class="pl-s"><span class="pl-pds">"</span>Select Country<span class="pl-pds">"</span></span>);
+picker<span class="pl-k">.</span>show(getSupportFragmentManager(), <span class="pl-s"><span class="pl-pds">"</span>COUNTRY_PICKER<span class="pl-pds">"</span></span>);
+picker<span class="pl-k">.</span>setListener(<span class="pl-k">new</span> <span class="pl-smi">CountryPickerListener</span>() {
+    <span class="pl-k">@Override</span>
+    <span class="pl-k">public</span> <span class="pl-k">void</span> <span class="pl-en">onSelectCountry</span>(<span class="pl-smi">String</span> <span class="pl-v">name</span>, <span class="pl-smi">String</span> <span class="pl-v">code</span>, <span class="pl-smi">String</span> <span class="pl-v">dialCode</span>, <span class="pl-k">int</span> <span class="pl-v">flagDrawableResID</span>) {
+        <span class="pl-c">// Implement your code here</span>
+    }
+});</pre></div>
+
+<p>That's it your all done.</p>
+
+<h3>
+<a id="get-user-country-based-on-sim" class="anchor" href="#get-user-country-based-on-sim" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Get user country based on sim</h3>
+
+<p>The following code will get the current users country details based on sim.</p>
+
+<div class="highlight highlight-source-java"><pre><span class="pl-smi">CountryPicker</span> picker <span class="pl-k">=</span> <span class="pl-smi">CountryPicker</span><span class="pl-k">.</span>newInstance(<span class="pl-s"><span class="pl-pds">"</span>Select Country<span class="pl-pds">"</span></span>);
+<span class="pl-smi">Country</span> country <span class="pl-k">=</span> picker<span class="pl-k">.</span>getUserCountryInfo(<span class="pl-v">this</span>);
+<span class="pl-c">//TODO use the country object</span></pre></div>
+
+      <footer class="site-footer">
+        <span class="site-footer-owner"><a href="https://github.com/mukeshsolanki/country-picker-android">Country-picker-android</a> is maintained by <a href="https://github.com/mukeshsolanki">mukeshsolanki</a>.</span>
+
+        <span class="site-footer-credits">This page was generated by <a href="https://pages.github.com">GitHub Pages</a> using the <a href="https://github.com/jasonlong/cayman-theme">Cayman theme</a> by <a href="https://twitter.com/jasonlong">Jason Long</a>.</span>
+      </footer>
+
+    </section>
+
+  
+  </body>
+</html>

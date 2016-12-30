@@ -2,6 +2,7 @@ package com.mukesh.countrypicker.fragments;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.telephony.TelephonyManager;
@@ -172,20 +173,21 @@ public class CountryPicker extends DialogFragment implements Comparator<Country>
     this.context = context;
     getAllCountries();
     TelephonyManager telephonyManager =
-        (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
+            (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
     if (!(telephonyManager.getSimState() == TelephonyManager.SIM_STATE_ABSENT)) {
       return getCountry(telephonyManager.getSimCountryIso());
     }
     return afghanistan();
   }
 
-  public Country getCountryByLocale( Locale locale ) {
-    String countryIsoCode = locale.getISO3Country();
+  public Country getCountryByLocale( Context context, Locale locale ) {
+    this.context = context;
+    String countryIsoCode = locale.getISO3Country().substring(0,2).toLowerCase();
     return getCountry(countryIsoCode);
   }
 
-  public Country getCountryByName ( String countryName ) {
-
+  public Country getCountryByName ( Context context, String countryName ) {
+    this.context = context;
     Map<String, String> countries = new HashMap<>();
     for (String iso : Locale.getISOCountries()) {
       Locale l = new Locale("", iso);
@@ -200,7 +202,7 @@ public class CountryPicker extends DialogFragment implements Comparator<Country>
   }
 
   private Country getCountry( String countryIsoCode ) {
-
+    getAllCountries();
     for (int i = 0; i < allCountriesList.size(); i++) {
       Country country = allCountriesList.get(i);
       if (country.getCode().equalsIgnoreCase(countryIsoCode)) {

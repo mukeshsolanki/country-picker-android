@@ -13,6 +13,7 @@
       android:drawableLeft="@drawable/ic_search"
       android:hint="@string/search"
       android:maxLines="1"
+      android:imeOptions="actionSearch"
       />
 
   <ListView

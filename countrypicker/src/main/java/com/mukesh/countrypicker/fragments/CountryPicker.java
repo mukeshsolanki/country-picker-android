@@ -2,6 +2,7 @@ package com.mukesh.countrypicker.fragments;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.telephony.TelephonyManager;
@@ -28,8 +29,10 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Currency;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 
 /**
  * Created by mukesh on 25/04/16.
@@ -169,17 +172,42 @@ public class CountryPicker extends DialogFragment implements Comparator<Country>
   public Country getUserCountryInfo(Context context) {
     this.context = context;
     getAllCountries();
-    String countryIsoCode;
     TelephonyManager telephonyManager =
-        (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
+            (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
     if (!(telephonyManager.getSimState() == TelephonyManager.SIM_STATE_ABSENT)) {
-      countryIsoCode = telephonyManager.getSimCountryIso();
-      for (int i = 0; i < allCountriesList.size(); i++) {
-        Country country = allCountriesList.get(i);
-        if (country.getCode().equalsIgnoreCase(countryIsoCode)) {
-          country.setFlag(getFlagResId(country.getCode()));
-          return country;
-        }
+      return getCountry(telephonyManager.getSimCountryIso());
+    }
+    return afghanistan();
+  }
+
+  public Country getCountryByLocale( Context context, Locale locale ) {
+    this.context = context;
+    String countryIsoCode = locale.getISO3Country().substring(0,2).toLowerCase();
+    return getCountry(countryIsoCode);
+  }
+
+  public Country getCountryByName ( Context context, String countryName ) {
+    this.context = context;
+    Map<String, String> countries = new HashMap<>();
+    for (String iso : Locale.getISOCountries()) {
+      Locale l = new Locale("", iso);
+      countries.put(l.getDisplayCountry(), iso);
+    }
+
+    String countryIsoCode = countries.get(countryName);
+    if (countryIsoCode != null) {
+      return getCountry(countryIsoCode);
+    }
+    return afghanistan();
+  }
+
+  private Country getCountry( String countryIsoCode ) {
+    getAllCountries();
+    for (int i = 0; i < allCountriesList.size(); i++) {
+      Country country = allCountriesList.get(i);
+      if (country.getCode().equalsIgnoreCase(countryIsoCode)) {
+        country.setFlag(getFlagResId(country.getCode()));
+        return country;
       }
     }
     return afghanistan();

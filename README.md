@@ -47,12 +47,16 @@ picker.setListener(new CountryPickerListener() {
 
 That's it your all done.
 
-### Get user country based on sim
+### Operations
 
 The following code will get the current users country details based on sim.
 
 ```java
 CountryPicker picker = CountryPicker.newInstance("Select Country");
-Country country = picker.getUserCountryInfo(this);
+List<Country> countries = picker.getAllCountries(); //Get all countries
+Country country = picker.getUserCountryInfo(this); //Get user country based on sim
+Country country = picker.getCountryByLocale(context , local); //Get country based on Locale
+Country country = picker.getCountryByName(context , country_name); //Get country by country name
+
 //TODO use the country object
 ```

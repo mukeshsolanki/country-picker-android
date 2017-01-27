@@ -56,3 +56,48 @@ CountryPicker picker = CountryPicker.newInstance("Select Country");
 Country country = picker.getUserCountryInfo(this);
 //TODO use the country object
 ```
+
+### Get country from english name
+
+```java
+  public Country getCountryByName ( Context context, String countryName ) {
+    this.context = context;
+    Map<String, String> countries = new HashMap<>();
+    for (String iso : Locale.getISOCountries()) {
+      Locale l = new Locale("", iso);
+      countries.put(l.getDisplayCountry(), iso);
+    }
+
+    String countryIsoCode = countries.get(countryName);
+    if (countryIsoCode != null) {
+      return getCountry(countryIsoCode);
+    }
+    return afghanistan();
+  }
+```
+  
+After you have initially selected a country, you may want to store it and retrieve the flag or other details later. This method allows you to store the selected country by its name, and later retrieve it with that same name. Try it as follows
+
+```java
+CountryPicker picker = CountryPicker.newInstance("Select Country");
+Country country = picker.getCountryByName("Canada");
+//TODO use the country object
+```
+
+### Get country from locale
+
+```java
+  public Country getCountryByLocale( Context context, Locale locale ) {
+    this.context = context;
+    String countryIsoCode = locale.getISO3Country().substring(0,2).toLowerCase();
+    return getCountry(countryIsoCode);
+  }
+```
+
+The Android Locale class uses ISO country name standards. This is useful for storing and then retriving the country that was first selected using the country picker. Pass your desired locale into this method to retrieve its country class and contained flag. Try it as follows
+
+```java
+CountryPicker picker = CountryPicker.newInstance("Select Country");
+Country country = picker.getCountryByLocale(Locale.GERMANY);
+//TODO use the country object
+```

@@ -1,21 +1,20 @@
-<h1 align="center">Country Picker for Android</h1>
-<p align="center">
-  <a href="https://android-arsenal.com/api?level=9"> <img src="https://img.shields.io/badge/API-9%2B-blue.svg?style=flat" /></a>
-  <a href="https://jitpack.io/#mukeshsolanki/country-picker-android"> <img src="https://jitpack.io/v/mukeshsolanki/country-picker-android.svg" /></a>
-  <a href="http://android-arsenal.com/details/3/3561"> <img src="https://img.shields.io/badge/Android%20Arsenal-Country%20Picker-brightgreen.svg?style=flat" /></a>
-  <a href="https://travis-ci.org/mukeshsolanki/country-picker-android"> <img src="https://travis-ci.org/mukeshsolanki/country-picker-android.svg?branch=master" /></a>
-  <a href="https://www.paypal.me/mukeshsolanki"> <img src="https://img.shields.io/badge/paypal-donate-yellow.svg" /></a>
-  <br /><br />CountryPicker is a simple library that can be show a country picker. See the example to see more detail.
-</p>
 
 
-<img src="https://raw.githubusercontent.com/mukeshsolanki/country-picker-android/master/Screenshot_20160506-152951.png" width="480" height="800" />
+# Country Picker for Android
+
+
+
+[![](https://img.shields.io/badge/API-9%2B-blue.svg?style=flat)](https://android-arsenal.com/api?level=9) [![](https://jitpack.io/v/mukeshsolanki/country-picker-android.svg)](https://jitpack.io/#mukeshsolanki/country-picker-android) [![](https://img.shields.io/badge/Android%20Arsenal-Country%20Picker-brightgreen.svg?style=flat)](http://android-arsenal.com/details/3/3561) [![](https://travis-ci.org/mukeshsolanki/country-picker-android.svg?branch=master)](https://travis-ci.org/mukeshsolanki/country-picker-android) [![](https://img.shields.io/badge/paypal-donate-yellow.svg)](https://www.paypal.me/mukeshsolanki)
+
+CountryPicker is a simple library that can be show a country picker. See the example to see more detail.
+
+![](https://raw.githubusercontent.com/mukeshsolanki/country-picker-android/master/Screenshot_20160506-152951.png)
 
 ## How to use
 
 Integrating the project is simple a refined all you need to do is follow the below steps
 
-Step 1. Add the JitPack repository to your build file. Add it in your root build.gradle at the end of repositories:
+Step 1\. Add the JitPack repository to your build file. Add it in your root build.gradle at the end of repositories:
 
 ```java
 allprojects {
@@ -25,7 +24,9 @@ allprojects {
   }
 }
 ```
-Step 2. Add the dependency
+
+Step 2\. Add the dependency
+
 ```java
 dependencies {
         compile 'com.github.mukeshsolanki:country-picker-android:1.1.7'
@@ -49,14 +50,18 @@ That's it your all done.
 
 ### Operations
 
-The following code will get the current users country details based on sim.
-
 ```java
 CountryPicker picker = CountryPicker.newInstance("Select Country");
-List<Country> countries = picker.getAllCountries(); //Get all countries
-Country country = picker.getUserCountryInfo(this); //Get user country based on sim
-Country country = picker.getCountryByLocale(context , local); //Get country based on Locale
-Country country = picker.getCountryByName(context , country_name); //Get country by country name
+List<Country> countries = Country.getAllCountriesList(); //List of all countries
+Country[] countries = Country.COUNTRIES; //Array of all countries sorted by ISO code
+Country country = Country.getCountryFromSIM(context); //Get user country based on sim
+Country country = Country.getCountryByLocale(locale); //Get country based on Locale
+Country country = Country.getCountryByName( country_name); //Get country by country name
 
-//TODO use the country object
+
+String name = country.getName();
+String code = country.getCode();
+int flag = country.getFlag();  // returns android resource id of flag or -1, if none is associated
+country.loadFlagByCode();  // attempts to associate flag to country based on its ISO code
+String dialCode = country.getDialCode();
 ```

@@ -10,6 +10,9 @@ import com.mukesh.countrypicker.fragments.CountryPicker;
 import com.mukesh.countrypicker.interfaces.CountryPickerListener;
 import com.mukesh.countrypicker.models.Country;
 
+import java.util.ArrayList;
+import java.util.Collections;
+
 public class MainActivity extends AppCompatActivity {
 
   private TextView mCountryNameTextView, mCountryIsoCodeTextView, mCountryDialCodeTextView;
@@ -50,6 +53,17 @@ public class MainActivity extends AppCompatActivity {
     mPickCountryButton = (Button) findViewById(R.id.country_picker_button);
     mCountryFlagImageView = (ImageView) findViewById(R.id.selected_country_flag_image_view);
     mCountryPicker = CountryPicker.newInstance("Select Country");
+
+    // You can limit the displayed countries
+    ArrayList<Country> nc = new ArrayList<>();
+    for (Country c : Country.getAllCountries()) {
+      if (c.getDialCode().endsWith("0")) {
+        nc.add(c);
+      }
+    }
+    // and decide, in which order they will be displayed
+    Collections.reverse(nc);
+    mCountryPicker.setCountriesList(nc);
   }
 
   private void getUserCountryInfo() {

@@ -67,7 +67,7 @@ public class CountryPicker extends DialogFragment implements Comparator<Country>
     return null;
   }
 
-  private List<Country> getAllCountries() {
+  public List<Country> getAllCountries() {
     if (allCountriesList == null) {
       try {
         allCountriesList = new ArrayList<>();

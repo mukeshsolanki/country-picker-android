@@ -31,7 +31,7 @@ Step 2\. Add the dependency
 
 ```java
 dependencies {
-        compile 'com.github.mukeshsolanki:country-picker-android:1.1.7'
+        compile 'com.github.mukeshsolanki:country-picker-android:1.1.8'
 }
 ```
 

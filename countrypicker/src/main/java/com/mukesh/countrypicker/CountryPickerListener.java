@@ -1,4 +1,4 @@
-package com.mukesh.countrypicker.interfaces;
+package com.mukesh.countrypicker;
 
 /**
  * Created by mukesh on 25/04/16.

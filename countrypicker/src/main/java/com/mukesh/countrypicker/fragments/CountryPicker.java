@@ -2,7 +2,6 @@ package com.mukesh.countrypicker.fragments;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.telephony.TelephonyManager;
@@ -25,6 +24,7 @@ import com.mukesh.countrypicker.models.Country;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.text.Normalizer;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -157,8 +157,17 @@ public class CountryPicker extends DialogFragment implements Comparator<Country>
 
   @SuppressLint("DefaultLocale") private void search(String text) {
     selectedCountriesList.clear();
+    text = text.toLowerCase();
+    String countryName;
     for (Country country : allCountriesList) {
-      if (country.getName().toLowerCase(Locale.ENGLISH).contains(text.toLowerCase())) {
+      countryName = country.getName().toLowerCase(Locale.ENGLISH);
+      if (countryName.contains(text)) {
+        selectedCountriesList.add(country);
+        continue;
+      }
+
+      countryName = Normalizer.normalize(countryName, Normalizer.Form.NFD).replaceAll("[^\\p{ASCII}]", "");
+      if (countryName.contains(text)) {
         selectedCountriesList.add(country);
       }
     }

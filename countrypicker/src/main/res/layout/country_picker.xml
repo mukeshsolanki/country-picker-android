@@ -11,8 +11,7 @@
       android:layout_height="wrap_content"
       android:layout_margin="10dp"
       android:drawableLeft="@drawable/ic_search"
-      android:hint="@string/search"
-      android:maxLines="1"
+      android:hint="@android:string/search_go"
       android:imeOptions="actionSearch"
       />
 

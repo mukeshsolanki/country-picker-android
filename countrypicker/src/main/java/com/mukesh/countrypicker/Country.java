@@ -1,6 +1,7 @@
 package com.mukesh.countrypicker;
 
 import android.content.Context;
+import android.support.annotation.DrawableRes;
 import android.telephony.TelephonyManager;
 import android.text.TextUtils;
 import android.util.Log;
@@ -273,7 +274,7 @@ public class Country {
   private String dialCode;
   private int flag = -1;
 
-  public Country(String code, String name, String dialCode, int flag) {
+  public Country(String code, String name, String dialCode, @DrawableRes int flag) {
     this.code = code;
     this.name = name;
     this.dialCode = dialCode;
@@ -282,9 +283,6 @@ public class Country {
 
   public Country() {
   }
-
-  ;
-
 
   public String getDialCode() {
     return dialCode;
@@ -309,11 +307,12 @@ public class Country {
     return name;
   }
 
+  @DrawableRes
   public int getFlag() {
     return flag;
   }
 
-  public void setFlag(int flag) {
+  public void setFlag(@DrawableRes int flag) {
     this.flag = flag;
   }
 

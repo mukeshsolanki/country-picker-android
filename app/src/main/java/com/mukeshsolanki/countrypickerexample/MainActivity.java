@@ -71,7 +71,7 @@ public class MainActivity extends AppCompatActivity {
   }
 
   private void getUserCountryInfo() {
-    Country country = Country.getCountryFromSIM(getApplicationContext());
+    Country country = Country.getCountryFromSIM(this);
     if (country != null) {
       mCountryFlagImageView.setImageResource(country.getFlag());
       mCountryDialCodeTextView.setText(country.getDialCode());

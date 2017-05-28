@@ -2,6 +2,7 @@
 <resources>
     <string name="app_name">Country Picker</string>
     <string name="afghanistan">Афганистан</string>
+    <string name="aland_islands">Аландские острова</string>
     <string name="albania">Албания</string>
     <string name="algeria">Алжир</string>
     <string name="americansamoa">Американское Самоа</string>
@@ -185,8 +186,8 @@
     <string name="romania">Румыния</string>
     <string name="russia">Российская Федерация</string>
     <string name="rwanda">Руанда</string>
-    <string name="réunion">Реюньон</string>
-    <string name="saint_barthélemy">Сент-Бартелеми</string>
+    <string name="reunion">Реюньон</string>
+    <string name="saint_barthelemy">Сент-Бартелеми</string>
     <string name="saint_helena_ascension_and_tristan_da_cunha">Святой Елены, Вознесения и Тристан-да-Кунья</string>
     <string name="saint_kitts_and_nevis">Сент-Киттс и Невис</string>
     <string name="saint_lucia">Сент-Люсия</string>
@@ -252,5 +253,4 @@
     <string name="yemen">Йемен</string>
     <string name="zambia">Замбия</string>
     <string name="zimbabwe">Зимбабве</string>
-    <string name="åland_islands">Аландские острова</string>
 </resources>

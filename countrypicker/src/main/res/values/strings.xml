@@ -18,7 +18,7 @@
   <string name="austria">Austria</string>
   <string name="australia">Australia</string>
   <string name="aruba">Aruba</string>
-  <string name="åland_islands">Åland Islands</string>
+  <string name="aland_islands">Åland Islands</string>
   <string name="azerbaijan">Azerbaijan</string>
   <string name="bosnia_and_herzegovina">Bosnia and Herzegovina</string>
   <string name="barbados">Barbados</string>
@@ -29,7 +29,7 @@
   <string name="bahrain">Bahrain</string>
   <string name="burundi">Burundi</string>
   <string name="benin">Benin</string>
-  <string name="saint_barthélemy">Saint Barthélemy</string>
+  <string name="saint_barthelemy">Saint Barthélemy</string>
   <string name="bermuda">Bermuda</string>
   <string name="brunei_darussalam">Brunei Darussalam</string>
   <string name="bolivia_plurinational_state_of">Bolivia, Plurinational State of</string>
@@ -191,7 +191,7 @@
   <string name="palau">Palau</string>
   <string name="paraguay">Paraguay</string>
   <string name="qatar">Qatar</string>
-  <string name="réunion">Réunion</string>
+  <string name="reunion">Réunion</string>
   <string name="romania">Romania</string>
   <string name="serbia">Serbia</string>
   <string name="russia">Russia</string>

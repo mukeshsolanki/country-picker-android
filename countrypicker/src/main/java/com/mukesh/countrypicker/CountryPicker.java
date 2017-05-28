@@ -42,7 +42,7 @@ public class CountryPicker extends DialogFragment {
   }
 
   public CountryPicker() {
-    setCountriesList(Country.getAllCountries());
+    setCountriesList(Country.getAllCountries(context));
   }
 
   @Override

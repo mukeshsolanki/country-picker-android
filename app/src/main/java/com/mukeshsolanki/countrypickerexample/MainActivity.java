@@ -60,7 +60,7 @@ public class MainActivity extends AppCompatActivity {
 
     // You can limit the displayed countries
     ArrayList<Country> nc = new ArrayList<>();
-    for (Country c : Country.getAllCountries()) {
+    for (Country c : Country.getAllCountries(this)) {
       if (c.getDialCode().endsWith("0")) {
         nc.add(c);
       }

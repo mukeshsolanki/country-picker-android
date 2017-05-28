@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Country Picker</string>
     <string name="afghanistan">Афганистан</string>
     <string name="aland_islands">Аландские острова</string>
     <string name="albania">Албания</string>

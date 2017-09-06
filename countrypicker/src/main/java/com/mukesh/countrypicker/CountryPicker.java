@@ -12,6 +12,7 @@ import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ListView;
 
+import java.text.Normalizer;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
@@ -21,102 +22,111 @@ import java.util.Locale;
  */
 public class CountryPicker extends DialogFragment {
 
-    private EditText searchEditText;
-    private ListView countryListView;
-    private CountryListAdapter adapter;
-    private List<Country> countriesList = new ArrayList<>();
-    private List<Country> selectedCountriesList = new ArrayList<>();
-    private CountryPickerListener listener;
+  private EditText searchEditText;
+  private ListView countryListView;
+  private CountryListAdapter adapter;
+  private List<Country> countriesList = new ArrayList<>();
+  private List<Country> selectedCountriesList = new ArrayList<>();
+  private CountryPickerListener listener;
 
-    /**
-     * To support show as dialog
-     */
-    public static CountryPicker newInstance(String dialogTitle) {
-        CountryPicker picker = new CountryPicker();
-        Bundle bundle = new Bundle();
-        bundle.putString("dialogTitle", dialogTitle);
-        picker.setArguments(bundle);
-        return picker;
+  /**
+   * To support show as dialog
+   */
+  public static CountryPicker newInstance(String dialogTitle) {
+    CountryPicker picker = new CountryPicker();
+    Bundle bundle = new Bundle();
+    bundle.putString("dialogTitle", dialogTitle);
+    picker.setArguments(bundle);
+    return picker;
+  }
+
+  public CountryPicker() {
+  }
+
+  @Override
+  public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                           Bundle savedInstanceState) {
+    View view = inflater.inflate(R.layout.country_picker, null);
+    Bundle args = getArguments();
+    if (args != null) {
+      String dialogTitle = args.getString("dialogTitle");
+      getDialog().setTitle(dialogTitle);
+
+      int width = getResources().getDimensionPixelSize(R.dimen.cp_dialog_width);
+      int height = getResources().getDimensionPixelSize(R.dimen.cp_dialog_height);
+      getDialog().getWindow().setLayout(width, height);
+    }
+    searchEditText = (EditText) view.findViewById(R.id.country_code_picker_search);
+    countryListView = (ListView) view.findViewById(R.id.country_code_picker_listview);
+
+    if(countriesList.size() == 0) {
+      setCountriesList(Country.getAllCountries(getContext()));
     }
 
-    public CountryPicker() {
-    }
+    adapter = new CountryListAdapter(getActivity(), selectedCountriesList);
+    countryListView.setAdapter(adapter);
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.country_picker, null);
-        Bundle args = getArguments();
-        if (args != null) {
-            String dialogTitle = args.getString("dialogTitle");
-            getDialog().setTitle(dialogTitle);
+    countryListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
-            int width = getResources().getDimensionPixelSize(R.dimen.cp_dialog_width);
-            int height = getResources().getDimensionPixelSize(R.dimen.cp_dialog_height);
-            getDialog().getWindow().setLayout(width, height);
+      @Override
+      public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        if (listener != null) {
+          Country country = selectedCountriesList.get(position);
+          listener.onSelectCountry(country.getName(), country.getCode(), country.getDialCode(),
+                  country.getFlag());
         }
-        searchEditText = (EditText) view.findViewById(R.id.country_code_picker_search);
-        countryListView = (ListView) view.findViewById(R.id.country_code_picker_listview);
+      }
+    });
 
-        if(countriesList.size() == 0) {
-            setCountriesList(Country.getAllCountries(getContext()));
-        }
+    searchEditText.addTextChangedListener(new TextWatcher() {
 
-        adapter = new CountryListAdapter(getActivity(), selectedCountriesList);
-        countryListView.setAdapter(adapter);
+      @Override
+      public void onTextChanged(CharSequence s, int start, int before, int count) {
+      }
 
-        countryListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+      @Override
+      public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+      }
 
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                if (listener != null) {
-                    Country country = selectedCountriesList.get(position);
-                    listener.onSelectCountry(country.getName(), country.getCode(), country.getDialCode(),
-                            country.getFlag());
-                }
-            }
-        });
+      @Override
+      public void afterTextChanged(Editable s) {
+        search(s.toString());
+      }
+    });
 
-        searchEditText.addTextChangedListener(new TextWatcher() {
+    return view;
+  }
 
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-            }
+  public void setListener(CountryPickerListener listener) {
+    this.listener = listener;
+  }
 
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-                search(s.toString());
-            }
-        });
-
-        return view;
+  private void search(String text) {
+    selectedCountriesList.clear();
+    text = text.toLowerCase(Locale.getDefault());
+    final String regexPunct = "[\\p{ASCII}]";
+    String textNorm = Normalizer.normalize(text, Normalizer.Form.NFD).replaceAll(regexPunct, "");
+    String countryName;
+    for (Country country : countriesList) {
+      countryName = country.getName().toLowerCase(Locale.getDefault());
+      if (countryName.contains(text)) {
+        selectedCountriesList.add(country);
+        continue;
+      }
+      countryName = Normalizer.normalize(countryName, Normalizer.Form.NFD).replaceAll(regexPunct, "");
+      if (countryName.contains(textNorm))
+        selectedCountriesList.add(country);
     }
+    adapter.notifyDataSetChanged();
+  }
 
-    public void setListener(CountryPickerListener listener) {
-        this.listener = listener;
-    }
+  public void setCountriesList(List<Country> newCountries) {
+    this.countriesList.clear();
+    this.countriesList.addAll(newCountries);
+    this.selectedCountriesList = new ArrayList<>(countriesList);
 
-    private void search(String text) {
-        selectedCountriesList.clear();
-        for (Country country : countriesList) {
-            if (country.getName().toLowerCase(Locale.getDefault()).contains(text.toLowerCase(Locale.getDefault()))) {
-                selectedCountriesList.add(country);
-            }
-        }
-        adapter.notifyDataSetChanged();
-    }
-
-    public void setCountriesList(List<Country> newCountries) {
-        this.countriesList.clear();
-        this.countriesList.addAll(newCountries);
-        this.selectedCountriesList = new ArrayList<>(countriesList);
-
-        if(adapter!=null)
-            adapter.setItems(this.selectedCountriesList);
-    }
+    if(adapter!=null)
+      adapter.setItems(this.selectedCountriesList);
+  }
 
 }

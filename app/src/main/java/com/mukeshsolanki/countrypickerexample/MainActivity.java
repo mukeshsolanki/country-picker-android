@@ -60,7 +60,7 @@ public class MainActivity extends AppCompatActivity {
 
     // You can limit the displayed countries
     ArrayList<Country> nc = new ArrayList<>();
-    for (Country c : Country.getAllCountries()) {
+    for (Country c : Country.getAllCountries(this)) {
       if (c.getDialCode().endsWith("0")) {
         nc.add(c);
       }
@@ -71,7 +71,7 @@ public class MainActivity extends AppCompatActivity {
   }
 
   private void getUserCountryInfo() {
-    Country country = Country.getCountryFromSIM(getApplicationContext());
+    Country country = Country.getCountryFromSIM(this);
     if (country != null) {
       mCountryFlagImageView.setImageResource(country.getFlag());
       mCountryDialCodeTextView.setText(country.getDialCode());

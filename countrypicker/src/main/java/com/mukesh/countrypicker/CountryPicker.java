@@ -1,7 +1,6 @@
 package com.mukesh.countrypicker;
 
 import android.annotation.SuppressLint;
-import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.text.Editable;
@@ -13,6 +12,7 @@ import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ListView;
 
+import java.text.Normalizer;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
@@ -28,7 +28,6 @@ public class CountryPicker extends DialogFragment {
   private List<Country> countriesList = new ArrayList<>();
   private List<Country> selectedCountriesList = new ArrayList<>();
   private CountryPickerListener listener;
-  private Context context;
 
   /**
    * To support show as dialog
@@ -42,7 +41,6 @@ public class CountryPicker extends DialogFragment {
   }
 
   public CountryPicker() {
-    setCountriesList(Country.getAllCountries());
   }
 
   @Override
@@ -61,8 +59,9 @@ public class CountryPicker extends DialogFragment {
     searchEditText = (EditText) view.findViewById(R.id.country_code_picker_search);
     countryListView = (ListView) view.findViewById(R.id.country_code_picker_listview);
 
-    selectedCountriesList = new ArrayList<>(countriesList.size());
-    selectedCountriesList.addAll(countriesList);
+    if(countriesList.size() == 0) {
+      setCountriesList(Country.getAllCountries(getContext()));
+    }
 
     adapter = new CountryListAdapter(getActivity(), selectedCountriesList);
     countryListView.setAdapter(adapter);
@@ -74,7 +73,7 @@ public class CountryPicker extends DialogFragment {
         if (listener != null) {
           Country country = selectedCountriesList.get(position);
           listener.onSelectCountry(country.getName(), country.getCode(), country.getDialCode(),
-              country.getFlag());
+                  country.getFlag());
         }
       }
     });
@@ -102,13 +101,21 @@ public class CountryPicker extends DialogFragment {
     this.listener = listener;
   }
 
-  @SuppressLint("DefaultLocale")
   private void search(String text) {
     selectedCountriesList.clear();
+    text = text.toLowerCase(Locale.getDefault());
+    final String regexPunct = "[\\p{ASCII}]";
+    String textNorm = Normalizer.normalize(text, Normalizer.Form.NFD).replaceAll(regexPunct, "");
+    String countryName;
     for (Country country : countriesList) {
-      if (country.getName().toLowerCase(Locale.ENGLISH).contains(text.toLowerCase())) {
+      countryName = country.getName().toLowerCase(Locale.getDefault());
+      if (countryName.contains(text)) {
         selectedCountriesList.add(country);
+        continue;
       }
+      countryName = Normalizer.normalize(countryName, Normalizer.Form.NFD).replaceAll(regexPunct, "");
+      if (countryName.contains(textNorm))
+        selectedCountriesList.add(country);
     }
     adapter.notifyDataSetChanged();
   }
@@ -116,6 +123,10 @@ public class CountryPicker extends DialogFragment {
   public void setCountriesList(List<Country> newCountries) {
     this.countriesList.clear();
     this.countriesList.addAll(newCountries);
+    this.selectedCountriesList = new ArrayList<>(countriesList);
+
+    if(adapter!=null)
+      adapter.setItems(this.selectedCountriesList);
   }
 
 }

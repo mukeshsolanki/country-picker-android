@@ -57,6 +57,11 @@ public class CountryListAdapter extends BaseAdapter {
     return view;
   }
 
+  public void setItems(List<Country> countries){
+      this.countries = countries;
+      notifyDataSetChanged();
+  }
+
   static class Cell {
     public TextView textView;
     public ImageView imageView;

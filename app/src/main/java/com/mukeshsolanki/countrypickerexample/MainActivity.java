@@ -16,7 +16,7 @@ import java.util.Collections;
 
 public class MainActivity extends AppCompatActivity {
 
-  private TextView mCountryNameTextView, mCountryIsoCodeTextView, mCountryDialCodeTextView;
+  private TextView mCountryNameTextView, mCountryIsoCodeTextView, mCountryDialCodeTextView, mCountryLocaleTextView;
   private ImageView mCountryFlagImageView;
   private Button mPickCountryButton;
   private CountryPicker mCountryPicker;
@@ -32,11 +32,12 @@ public class MainActivity extends AppCompatActivity {
   private void setListener() {
     mCountryPicker.setListener(new CountryPickerListener() {
       @Override
-      public void onSelectCountry(String name, String code, String dialCode,
+      public void onSelectCountry(String name, String code, String dialCode, String locale,
                                   int flagDrawableResID) {
         mCountryNameTextView.setText(name);
         mCountryIsoCodeTextView.setText(code);
         mCountryDialCodeTextView.setText(dialCode);
+        mCountryLocaleTextView.setText(locale);
         mCountryFlagImageView.setImageResource(flagDrawableResID);
         mCountryPicker.dismiss();
       }
@@ -53,6 +54,7 @@ public class MainActivity extends AppCompatActivity {
   private void initialize() {
     mCountryNameTextView = findViewById(R.id.selected_country_name_text_view);
     mCountryIsoCodeTextView = findViewById(R.id.selected_country_iso_text_view);
+    mCountryLocaleTextView = findViewById(R.id.selected_country_locale_text_view);
     mCountryDialCodeTextView = findViewById(R.id.selected_country_dial_code_text_view);
     mPickCountryButton = findViewById(R.id.country_picker_button);
     mCountryFlagImageView = findViewById(R.id.selected_country_flag_image_view);
@@ -77,6 +79,7 @@ public class MainActivity extends AppCompatActivity {
       mCountryDialCodeTextView.setText(country.getDialCode());
       mCountryIsoCodeTextView.setText(country.getCode());
       mCountryNameTextView.setText(country.getName());
+      mCountryLocaleTextView.setText(country.getLocale());
     }
   }
 }

@@ -3,10 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
-      <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
       <module fileurl="file://$PROJECT_DIR$/country-picker-android.iml" filepath="$PROJECT_DIR$/country-picker-android.iml" />
-      <module fileurl="file://$PROJECT_DIR$/country-picker-android.iml" filepath="$PROJECT_DIR$/country-picker-android.iml" />
-      <module fileurl="file://$PROJECT_DIR$/countrypicker/countrypicker.iml" filepath="$PROJECT_DIR$/countrypicker/countrypicker.iml" />
       <module fileurl="file://$PROJECT_DIR$/countrypicker/countrypicker.iml" filepath="$PROJECT_DIR$/countrypicker/countrypicker.iml" />
     </modules>
   </component>

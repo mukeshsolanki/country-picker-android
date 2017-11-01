@@ -12,15 +12,16 @@
     android:drawableLeft="@drawable/ic_search"
     android:hint="@string/search"
     android:imeOptions="actionSearch"
-    android:maxLines="1"/>
+    android:maxLines="1"
+      android:drawableStart="@drawable/ic_search" />
 
   <ListView
-    android:id="@+id/country_code_picker_listview"
-    android:layout_width="match_parent"
-    android:layout_height="0dp"
-    android:layout_marginBottom="10dp"
-    android:layout_marginLeft="10dp"
-    android:layout_marginRight="10dp"
-    android:layout_weight="1"></ListView>
+      android:id="@+id/country_code_picker_listview"
+      android:layout_width="match_parent"
+      android:layout_height="0dp"
+      android:layout_marginBottom="10dp"
+      android:layout_marginLeft="10dp"
+      android:layout_marginRight="10dp"
+      android:layout_weight="1" />
 
 </LinearLayout>

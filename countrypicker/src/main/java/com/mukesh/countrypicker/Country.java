@@ -3,7 +3,6 @@ package com.mukesh.countrypicker;
 import android.content.Context;
 import android.telephony.TelephonyManager;
 import android.text.TextUtils;
-import android.util.Log;
 
 import java.util.Arrays;
 import java.util.Comparator;
@@ -12,10 +11,11 @@ import java.util.Locale;
 
 /**
  * Created by mukesh on 25/04/16.
+ * Updated 01/11/17 by @stom79
  */
 
 public class Country {
-  public static final Country[] COUNTRIES = {
+  private static final Country[] COUNTRIES = {
       new Country("AD", "Andorra", "+376", R.drawable.flag_ad),
       new Country("AE", "United Arab Emirates", "+971", R.drawable.flag_ae),
       new Country("AF", "Afghanistan", "+93", R.drawable.flag_af),
@@ -273,17 +273,16 @@ public class Country {
   private String dialCode;
   private int flag = -1;
 
-  public Country(String code, String name, String dialCode, int flag) {
+  private Country(String code, String name, String dialCode, int flag) {
     this.code = code;
     this.name = name;
     this.dialCode = dialCode;
     this.flag = flag;
   }
 
-  public Country() {
+  private Country() {
   }
 
-  ;
 
 
   public String getDialCode() {
@@ -298,7 +297,7 @@ public class Country {
     return code;
   }
 
-  public void setCode(String code) {
+  private void setCode(String code) {
     this.code = code;
     if (TextUtils.isEmpty(name)) {
       name = new Locale("", code).getDisplayName();
@@ -317,7 +316,7 @@ public class Country {
     this.flag = flag;
   }
 
-  public void loadFlagByCode(Context context) {
+  void loadFlagByCode(Context context) {
     if (this.flag != -1)
       return;
 
@@ -345,7 +344,7 @@ public class Country {
     return allCountriesList;
   }
 
-  public static Country getCountryByISO(String countryIsoCode) {
+  private static Country getCountryByISO(String countryIsoCode) {
     countryIsoCode = countryIsoCode.toUpperCase();
 
     Country c = new Country();
@@ -380,6 +379,7 @@ public class Country {
   public static Country getCountryFromSIM(Context context) {
     TelephonyManager telephonyManager =
         (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
+    assert telephonyManager != null;
     if (telephonyManager.getSimState() != TelephonyManager.SIM_STATE_ABSENT) {
       return Country.getCountryByISO(telephonyManager.getSimCountryIso());
     }

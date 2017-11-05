@@ -1,5 +1,6 @@
 package com.mukesh.countrypicker;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,14 +13,15 @@ import java.util.List;
 
 /**
  * Created by mukesh on 25/04/16.
+ * Updated by @stom79 01/11/17
  */
 public class CountryListAdapter extends BaseAdapter {
 
   private Context mContext;
-  List<Country> countries;
-  LayoutInflater inflater;
+  private List<Country> countries;
+  private LayoutInflater inflater;
 
-  public CountryListAdapter(Context context, List<Country> countries) {
+  CountryListAdapter(Context context, List<Country> countries) {
     super();
     this.mContext = context;
     this.countries = countries;
@@ -41,6 +43,7 @@ public class CountryListAdapter extends BaseAdapter {
     return 0;
   }
 
+  @SuppressLint("InflateParams")
   @Override
   public View getView(int position, View view, ViewGroup parent) {
     Country country = countries.get(position);
@@ -58,8 +61,8 @@ public class CountryListAdapter extends BaseAdapter {
   }
 
   static class Cell {
-    public TextView textView;
-    public ImageView imageView;
+    TextView textView;
+    ImageView imageView;
 
     static Cell from(View view) {
       if (view == null)

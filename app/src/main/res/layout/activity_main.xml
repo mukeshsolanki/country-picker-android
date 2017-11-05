@@ -27,7 +27,7 @@
           android:layout_height="wrap_content"
           android:layout_weight="1"
           android:text="Country Name"
-          />
+          tools:ignore="HardcodedText" />
       <android.support.v7.widget.AppCompatTextView
           android:id="@+id/selected_country_name_text_view"
           android:layout_width="0dp"
@@ -45,7 +45,7 @@
           android:layout_height="wrap_content"
           android:layout_weight="1"
           android:text="Country ISO Code"
-          />
+          tools:ignore="HardcodedText" />
       <android.support.v7.widget.AppCompatTextView
           android:id="@+id/selected_country_iso_text_view"
           android:layout_width="0dp"
@@ -63,7 +63,7 @@
           android:layout_height="wrap_content"
           android:layout_weight="1"
           android:text="Country Dial Code"
-          />
+          tools:ignore="HardcodedText" />
       <android.support.v7.widget.AppCompatTextView
           android:id="@+id/selected_country_dial_code_text_view"
           android:layout_width="0dp"
@@ -80,8 +80,26 @@
           android:layout_width="0dp"
           android:layout_height="wrap_content"
           android:layout_weight="1"
-          android:text="Country Flag"
+          android:text="Locale"
+          tools:ignore="HardcodedText" />
+      <android.support.v7.widget.AppCompatTextView
+          android:id="@+id/selected_country_locale_text_view"
+          android:layout_width="0dp"
+          android:layout_height="wrap_content"
+          android:layout_weight="1"
+          tools:text="Selected Country locale"
           />
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        >
+      <android.support.v7.widget.AppCompatTextView
+          android:layout_width="0dp"
+          android:layout_height="wrap_content"
+          android:layout_weight="1"
+          android:text="Country Flag"
+          tools:ignore="HardcodedText" />
       <LinearLayout
           android:layout_width="0dp"
           android:layout_height="wrap_content"

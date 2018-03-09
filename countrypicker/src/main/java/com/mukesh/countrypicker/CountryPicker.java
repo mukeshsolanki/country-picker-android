@@ -22,8 +22,6 @@ import java.util.Locale;
  */
 public class CountryPicker extends DialogFragment {
 
-    public static Country[] COUNTRIES;
-
     private EditText searchEditText;
     private ListView countryListView;
     private CountryListAdapter adapter;

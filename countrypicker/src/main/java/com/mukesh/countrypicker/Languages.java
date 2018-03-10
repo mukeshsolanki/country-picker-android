@@ -1,4 +1,5 @@
 package com.mukesh.countrypicker;
+
 /**
  * Created by Bashayer Alsalman
  * 9 Mar 2018
@@ -13,7 +14,4 @@ enum Languages {
         this.code = code;
     }
 
-    public String getCode() {
-        return code;
-    }
 }

@@ -375,7 +375,7 @@ public class CountryConstants {
             new Country("HU", "المجر"	,"+36", R.drawable.flag_hu),
             new Country("ID", "اندونيسيا"	,"+62", R.drawable.flag_id),
             new Country("IE", "أيرلندا"	,"+353", R.drawable.flag_ie),
-            new Country("IL", "اسرائيل"	,"+972", R.drawable.flag_il),
+            new Country("IL", "اسرائيل"	,"+972", R.drawable.flag_il),//todo فلسطين المحتلة
             new Country("IM", "جزيرة مان"	,"+44", R.drawable.flag_im),
             new Country("IN", "الهند"	,"+91", R.drawable.flag_in),
             new Country("IO", "المحيط الهندي البريطاني"	,"+246", R.drawable.flag_io),

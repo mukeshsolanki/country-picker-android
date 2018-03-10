@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.LayoutDirection;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -49,6 +50,10 @@ public class CountryPicker extends DialogFragment {
         return Locale.getDefault().getLanguage();
     }
 
+    private int getDirection() {
+        return Languages.ARABIC.code.equals(getDefaultLanguage()) ? LayoutDirection.RTL : LayoutDirection.LTR;
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -68,7 +73,7 @@ public class CountryPicker extends DialogFragment {
         selectedCountriesList = new ArrayList<>(countriesList.size());
         selectedCountriesList.addAll(countriesList);
 
-        adapter = new CountryListAdapter(getActivity(), selectedCountriesList);
+        adapter = new CountryListAdapter(getActivity(), selectedCountriesList, getDirection());
         countryListView.setAdapter(adapter);
 
         countryListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -111,6 +116,8 @@ public class CountryPicker extends DialogFragment {
         selectedCountriesList.clear();
         for (Country country : countriesList) {
             if (country.getName().toLowerCase(Locale.ENGLISH).contains(text.toLowerCase())) {
+                selectedCountriesList.add(country);
+            } else if (country.getName().contains(text)) {
                 selectedCountriesList.add(country);
             }
         }

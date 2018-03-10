@@ -7,9 +7,9 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.mukesh.countrypicker.Country;
 import com.mukesh.countrypicker.CountryPicker;
 import com.mukesh.countrypicker.CountryPickerListener;
-import com.mukesh.countrypicker.Country;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -50,6 +50,10 @@ public class MainActivity extends AppCompatActivity {
     getUserCountryInfo();
   }
 
+  private String getDefaultLanguage() {
+    return "ar";
+  }
+
   private void initialize() {
     mCountryNameTextView = (TextView) findViewById(R.id.selected_country_name_text_view);
     mCountryIsoCodeTextView = (TextView) findViewById(R.id.selected_country_iso_text_view);
@@ -60,7 +64,7 @@ public class MainActivity extends AppCompatActivity {
 
     // You can limit the displayed countries
     ArrayList<Country> nc = new ArrayList<>();
-    for (Country c : Country.getAllCountries()) {
+    for (Country c : Country.getAllCountries(getDefaultLanguage())) {
       if (c.getDialCode().endsWith("0")) {
         nc.add(c);
       }

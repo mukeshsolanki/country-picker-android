@@ -8,7 +8,7 @@
 
 CountryPicker is a simple library that can be show a country picker. See the example to see more detail.
 
-![](https://raw.githubusercontent.com/mukeshsolanki/country-picker-android/master/Screenshot_20160506-152951.png)
+![](https://github.com/bashayerAlsalman/country-picker-android/blob/master/Screenshot_1520674262.png?raw=true)
 
 ## How to use
 
@@ -31,7 +31,7 @@ Step 2\. Add the dependency
 
 ```java
 dependencies {
-        compile 'com.github.mukeshsolanki:country-picker-android:<latest-version>'
+        compile 'com.github.bashayerAlsalman:country-picker-android:1.3.0'
 }
 ```
 
@@ -69,3 +69,6 @@ String dialCode = country.getDialCode();
 
 country.loadFlagByCode();  // attempts to associate flag to country based on its ISO code. Used if you create your own instance of Country.class
 ```
+
+### All Credit goes to mukeshsolanki | https://github.com/mukeshsolanki/country-picker-android
+Only arabic language is added in this version and some enhancements due the addition of the language.

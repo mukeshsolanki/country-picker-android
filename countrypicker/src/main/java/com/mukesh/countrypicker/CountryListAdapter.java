@@ -19,7 +19,8 @@ public class CountryListAdapter extends BaseAdapter {
   List<Country> countries;
   LayoutInflater inflater;
 
-  public CountryListAdapter(Context context, List<Country> countries) {
+  public CountryListAdapter(Context context,
+      List<Country> countries) {
     super();
     this.mContext = context;
     this.countries = countries;
@@ -45,15 +46,17 @@ public class CountryListAdapter extends BaseAdapter {
   public View getView(int position, View view, ViewGroup parent) {
     Country country = countries.get(position);
 
-    if (view == null)
+    if (view == null) {
       view = inflater.inflate(R.layout.row, null);
+    }
 
     Cell cell = Cell.from(view);
     cell.textView.setText(country.getName());
 
     country.loadFlagByCode(mContext);
-    if (country.getFlag() != -1)
+    if (country.getFlag() != -1) {
       cell.imageView.setImageResource(country.getFlag());
+    }
     return view;
   }
 
@@ -62,8 +65,9 @@ public class CountryListAdapter extends BaseAdapter {
     public ImageView imageView;
 
     static Cell from(View view) {
-      if (view == null)
+      if (view == null) {
         return null;
+      }
 
       if (view.getTag() == null) {
         Cell cell = new Cell();

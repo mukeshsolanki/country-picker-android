@@ -281,7 +281,7 @@ public class CountryPicker
 
   private Context context;
   private int sortBy = SORT_BY_NONE;
-  private CountryPickerListener countryPickerListener;
+  private OnCountryPickerListener onCountryPickerListener;
   private boolean canSearch = true;
 
   private List<Country> countries;
@@ -293,7 +293,7 @@ public class CountryPicker
 
   CountryPicker(Builder builder) {
     sortBy = builder.sortBy;
-    countryPickerListener = builder.countryPickerListener;
+    onCountryPickerListener = builder.onCountryPickerListener;
     context = builder.context;
     canSearch = builder.canSearch;
     countries = new ArrayList<>(Arrays.asList(COUNTRIES));
@@ -344,7 +344,7 @@ public class CountryPicker
       throw new IllegalArgumentException(context.getString(R.string.error_no_countries_found));
     } else {
       CountryPickerDialog countryPickerDialog = CountryPickerDialog.newInstance();
-      countryPickerDialog.setCountryPickerListener(countryPickerListener);
+      countryPickerDialog.setCountryPickerListener(onCountryPickerListener);
       countryPickerDialog.setDialogInteractionListener(this);
       countryPickerDialog.show(supportFragmentManager, COUNTRY_TAG);
     }
@@ -401,7 +401,7 @@ public class CountryPicker
     private Context context;
     private int sortBy = SORT_BY_NONE;
     private boolean canSearch = true;
-    private CountryPickerListener countryPickerListener;
+    private OnCountryPickerListener onCountryPickerListener;
 
     public Builder with(@NonNull Context context) {
       this.context = context;
@@ -413,8 +413,8 @@ public class CountryPicker
       return this;
     }
 
-    public Builder listener(@NonNull CountryPickerListener countryPickerListener) {
-      this.countryPickerListener = countryPickerListener;
+    public Builder listener(@NonNull OnCountryPickerListener onCountryPickerListener) {
+      this.onCountryPickerListener = onCountryPickerListener;
       return this;
     }
 
@@ -424,7 +424,7 @@ public class CountryPicker
     }
 
     public CountryPicker build() {
-      if (countryPickerListener == null) {
+      if (onCountryPickerListener == null) {
         throw new IllegalArgumentException(
             context.getString(R.string.error_listener_not_set));
       }

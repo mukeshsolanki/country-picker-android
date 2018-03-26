@@ -1,5 +1,5 @@
 package com.mukesh.countrypicker;
 
-public interface CountryPickerListener {
+public interface OnCountryPickerListener {
   void onSelectCountry(Country country);
 }

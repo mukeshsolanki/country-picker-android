@@ -24,7 +24,7 @@ public class CountryPickerDialog extends DialogFragment implements OnItemClickLi
   private RecyclerView countriesRecyclerView;
   private CountriesAdapter adapter;
   private List<Country> searchResults;
-  private CountryPickerListener listener;
+  private OnCountryPickerListener listener;
   // endregion
 
   // region Constructors
@@ -71,7 +71,7 @@ public class CountryPickerDialog extends DialogFragment implements OnItemClickLi
   // endregion
 
   // region Setter Methods
-  public void setCountryPickerListener(CountryPickerListener listener) {
+  public void setCountryPickerListener(OnCountryPickerListener listener) {
     this.listener = listener;
   }
 

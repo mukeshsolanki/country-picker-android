@@ -47,7 +47,7 @@ public class CountryPicker extends DialogFragment {
 
   @Override
   public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                           Bundle savedInstanceState) {
+      Bundle savedInstanceState) {
     View view = inflater.inflate(R.layout.country_picker, null);
     Bundle args = getArguments();
     if (args != null) {
@@ -117,5 +117,4 @@ public class CountryPicker extends DialogFragment {
     this.countriesList.clear();
     this.countriesList.addAll(newCountries);
   }
-
 }

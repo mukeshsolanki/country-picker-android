@@ -2,4 +2,7 @@
   <string name="app_name">Country Picker</string>
   <string name="search">Search&#8230;</string>
   <string name="no_sim_detected">No sim card detected.</string>
+  <string name="error_listener_not_set">Listener is not set you will not receive any callback for country picked!</string>
+  <string name="error_no_countries_found">No Countries Found! Did you call build()</string>
+  <string name="country_picker_header">Select country</string>
 </resources>

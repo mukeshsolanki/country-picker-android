@@ -80,6 +80,24 @@
           android:layout_width="0dp"
           android:layout_height="wrap_content"
           android:layout_weight="1"
+          android:text="Country Currency"
+          />
+      <android.support.v7.widget.AppCompatTextView
+          android:id="@+id/selected_country_currency"
+          android:layout_width="0dp"
+          android:layout_height="wrap_content"
+          android:layout_weight="1"
+          tools:text="Selected Country Dial Code"
+          />
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        >
+      <android.support.v7.widget.AppCompatTextView
+          android:layout_width="0dp"
+          android:layout_height="wrap_content"
+          android:layout_weight="1"
           android:text="Country Flag"
           />
       <LinearLayout

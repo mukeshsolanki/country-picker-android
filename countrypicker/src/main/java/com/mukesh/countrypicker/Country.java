@@ -8,16 +8,23 @@ public class Country {
   private String code;
   private String name;
   private String dialCode;
-  private int flag = -1;
+  private int flag;
+  private String currency;
 
-  public Country(String code, String name, String dialCode, int flag) {
+  public Country(String code, String name, String dialCode, int flag, String currency) {
     this.code = code;
     this.name = name;
     this.dialCode = dialCode;
     this.flag = flag;
+    this.currency = currency;
   }
 
-  public Country() {
+  public String getCurrency() {
+    return currency;
+  }
+
+  public void setCurrency(String currency) {
+    this.currency = currency;
   }
 
   public String getCode() {

@@ -16,7 +16,8 @@ import java.util.Collections;
 
 public class MainActivity extends AppCompatActivity implements CountryPickerListener {
 
-  private TextView mCountryNameTextView, mCountryIsoCodeTextView, mCountryDialCodeTextView;
+  private TextView mCountryNameTextView, mCountryIsoCodeTextView, mCountryDialCodeTextView,
+      mSelectedCountryCurrency;
   private ImageView mCountryFlagImageView;
   private Button mPickCountryButton;
   private CountryPicker mCountryPicker;
@@ -33,19 +34,21 @@ public class MainActivity extends AppCompatActivity implements CountryPickerList
     mPickCountryButton.setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View v) {
-        mCountryPicker.showDialog(getSupportFragmentManager(), MainActivity.this);
+        mCountryPicker.showDialog(getSupportFragmentManager());
       }
     });
     getUserCountryInfo();
   }
 
   private void initialize() {
-    mCountryNameTextView = (TextView) findViewById(R.id.selected_country_name_text_view);
-    mCountryIsoCodeTextView = (TextView) findViewById(R.id.selected_country_iso_text_view);
-    mCountryDialCodeTextView = (TextView) findViewById(R.id.selected_country_dial_code_text_view);
-    mPickCountryButton = (Button) findViewById(R.id.country_picker_button);
-    mCountryFlagImageView = (ImageView) findViewById(R.id.selected_country_flag_image_view);
-    mCountryPicker = new CountryPicker.Builder().with(this).listener(this).build();
+    mCountryNameTextView = findViewById(R.id.selected_country_name_text_view);
+    mCountryIsoCodeTextView = findViewById(R.id.selected_country_iso_text_view);
+    mCountryDialCodeTextView = findViewById(R.id.selected_country_dial_code_text_view);
+    mPickCountryButton = findViewById(R.id.country_picker_button);
+    mCountryFlagImageView = findViewById(R.id.selected_country_flag_image_view);
+    mSelectedCountryCurrency = findViewById(R.id.selected_country_currency);
+    mCountryPicker =
+        new CountryPicker.Builder().with(this).sortBy(CountryPicker.SORT_BY_DIAL_CODE).build();
     //mCountryPicker = CountryPicker.buolder("Select Country");
     //// You can limit the displayed countries
     //ArrayList<Country> nc = new ArrayList<>();
@@ -70,10 +73,11 @@ public class MainActivity extends AppCompatActivity implements CountryPickerList
   }
 
   @Override
-  public void onSelectCountry(String name, String code, String dialCode, int flagDrawableResID) {
-    mCountryFlagImageView.setImageResource(flagDrawableResID);
-    mCountryDialCodeTextView.setText(dialCode);
-    mCountryIsoCodeTextView.setText(code);
-    mCountryNameTextView.setText(name);
+  public void onSelectCountry(Country country) {
+    mCountryFlagImageView.setImageResource(country.getFlag());
+    mCountryDialCodeTextView.setText(country.getDialCode());
+    mCountryIsoCodeTextView.setText(country.getCode());
+    mCountryNameTextView.setText(country.getName());
+    mSelectedCountryCurrency.setText(country.getCurrency());
   }
 }

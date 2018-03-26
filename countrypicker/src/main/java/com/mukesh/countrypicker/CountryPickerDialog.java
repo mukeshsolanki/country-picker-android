@@ -18,51 +18,29 @@ import java.util.Locale;
 
 public class CountryPickerDialog extends DialogFragment {
 
+  private static String BUNDLE_KEY_COUNTRY_PICKER = "country_picker";
   private CountryPickerDialogInteractionListener dialogInteractionListener;
 
   private EditText searchEditText;
   private ListView countryListView;
   private CountryListAdapter adapter;
-  private List<Country> countriesList;
   private List<Country> searchResults;
   private CountryPickerListener listener;
 
-  public static CountryPickerDialog newInstance(CountryPicker countryPicker) {
+  public static CountryPickerDialog newInstance() {
     return new CountryPickerDialog();
-  }
-
-  @Override public void onAttach(Context context) {
-    super.onAttach(context);
-    if (context instanceof CountryPickerDialogInteractionListener) {
-      dialogInteractionListener = (CountryPickerDialogInteractionListener) context;
-    } else {
-      throw new IllegalArgumentException(
-          "You cannot directly use the CountryPicker Dialog Please use the builder!");
-    }
-  }
-
-  @Override public void onDetach() {
-    dialogInteractionListener = null;
-    super.onDetach();
   }
 
   @Nullable @Override
   public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
       Bundle savedInstanceState) {
     View view = inflater.inflate(R.layout.country_picker, null);
-    Bundle args = getArguments();
-    if (args != null) {
-      getDialog().setTitle("Select country");
-
-      int width = getResources().getDimensionPixelSize(R.dimen.cp_dialog_width);
-      int height = getResources().getDimensionPixelSize(R.dimen.cp_dialog_height);
-      getDialog().getWindow().setLayout(width, height);
-    }
+    getDialog().setTitle("Select country");
     searchEditText = view.findViewById(R.id.country_code_picker_search);
     countryListView = view.findViewById(R.id.country_code_picker_listview);
 
-    searchResults = new ArrayList<>(countriesList.size());
-    searchResults.addAll(countriesList);
+    searchResults = new ArrayList<>();
+    searchResults.addAll(dialogInteractionListener.getAllCountries());
 
     adapter = new CountryListAdapter(getActivity(), searchResults);
     countryListView.setAdapter(adapter);
@@ -73,9 +51,7 @@ public class CountryPickerDialog extends DialogFragment {
       public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         if (listener != null) {
           Country country = searchResults.get(position);
-          listener.onSelectCountry(country.getName(), country.getCode(),
-              country.getDialCode(),
-              country.getFlag());
+          listener.onSelectCountry(country);
           dismiss();
         }
       }
@@ -100,8 +76,13 @@ public class CountryPickerDialog extends DialogFragment {
     return view;
   }
 
-  public void setListener(CountryPickerListener listener) {
+  public void setCountryPickerListener(CountryPickerListener listener) {
     this.listener = listener;
+  }
+
+  public void setDialogInteractionListener(
+      CountryPickerDialogInteractionListener dialogInteractionListener) {
+    this.dialogInteractionListener = dialogInteractionListener;
   }
 
   private void search(String searchQuery) {

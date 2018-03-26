@@ -1,27 +1,28 @@
 package com.mukesh.countrypicker;
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.EditText;
-import android.widget.ListView;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
-public class CountryPickerDialog extends DialogFragment {
+public class CountryPickerDialog extends DialogFragment implements OnItemClickListener {
 
   // region Variables
   private CountryPickerDialogInteractionListener dialogInteractionListener;
   private EditText searchEditText;
-  private ListView countryListView;
-  private CountryListAdapter adapter;
+  private RecyclerView countriesRecyclerView;
+  private CountriesAdapter adapter;
   private List<Country> searchResults;
   private CountryPickerListener listener;
   // endregion
@@ -34,30 +35,14 @@ public class CountryPickerDialog extends DialogFragment {
 
   // region Lifecycle
   @Nullable @Override
-  public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
+  public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
       Bundle savedInstanceState) {
     View view = inflater.inflate(R.layout.country_picker, null);
-    getDialog().setTitle("Select country");
+    getDialog().setTitle(R.string.country_picker_header);
     searchEditText = view.findViewById(R.id.country_code_picker_search);
-    countryListView = view.findViewById(R.id.country_code_picker_listview);
+    countriesRecyclerView = view.findViewById(R.id.countries_recycler_view);
 
-    searchResults = new ArrayList<>();
-    searchResults.addAll(dialogInteractionListener.getAllCountries());
-
-    adapter = new CountryListAdapter(getActivity(), searchResults);
-    countryListView.setAdapter(adapter);
-
-    countryListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-
-      @Override
-      public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        if (listener != null) {
-          Country country = searchResults.get(position);
-          listener.onSelectCountry(country);
-          dismiss();
-        }
-      }
-    });
+    setupRecyclerView();
 
     searchEditText.addTextChangedListener(new TextWatcher() {
       @Override
@@ -73,8 +58,14 @@ public class CountryPickerDialog extends DialogFragment {
         search(searchQuery.toString());
       }
     });
-
     return view;
+  }
+
+  @Override public void onItemClicked(Country country) {
+    if (listener != null) {
+      listener.onSelectCountry(country);
+      dismiss();
+    }
   }
   // endregion
 
@@ -100,6 +91,18 @@ public class CountryPickerDialog extends DialogFragment {
     dialogInteractionListener.sortCountries(searchResults);
     adapter.notifyDataSetChanged();
   }
+
+  private void setupRecyclerView() {
+    searchResults = new ArrayList<>();
+    searchResults.addAll(dialogInteractionListener.getAllCountries());
+    adapter = new CountriesAdapter(getActivity(), searchResults, this);
+    countriesRecyclerView.setHasFixedSize(true);
+    LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
+    layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+    countriesRecyclerView.setLayoutManager(layoutManager);
+    countriesRecyclerView.setAdapter(adapter);
+  }
+
   // endregion
 
   //region Interface

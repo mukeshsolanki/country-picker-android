@@ -41,9 +41,10 @@ public class CountryPickerDialog extends DialogFragment implements OnItemClickLi
     getDialog().setTitle(R.string.country_picker_header);
     searchEditText = view.findViewById(R.id.country_code_picker_search);
     countriesRecyclerView = view.findViewById(R.id.countries_recycler_view);
-
     setupRecyclerView();
-
+    if (!dialogInteractionListener.canSearch()) {
+      searchEditText.setVisibility(View.GONE);
+    }
     searchEditText.addTextChangedListener(new TextWatcher() {
       @Override
       public void onTextChanged(CharSequence s, int start, int before, int count) {
@@ -110,6 +111,8 @@ public class CountryPickerDialog extends DialogFragment implements OnItemClickLi
     List<Country> getAllCountries();
 
     void sortCountries(List<Country> searchResults);
+
+    boolean canSearch();
   }
   // endregion
 }

@@ -46,7 +46,6 @@ public class MainActivity extends AppCompatActivity implements CountryPickerList
     mCountryPicker =
         new CountryPicker.Builder().with(this)
             .listener(this)
-            .sortBy(CountryPicker.SORT_BY_DIAL_CODE)
             .build();
   }
 

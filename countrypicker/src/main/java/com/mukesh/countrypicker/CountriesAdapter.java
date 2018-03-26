@@ -14,17 +14,22 @@ import java.util.List;
 public class CountriesAdapter extends
     RecyclerView.Adapter<CountriesAdapter.ViewHolder> {
 
+  // region Variables
   private OnItemClickListener listener;
   private List<Country> countries;
   private Context context;
+  // endregion
 
+  //region Constructor
   public CountriesAdapter(Context context, List<Country> countries,
       OnItemClickListener listener) {
     this.context = context;
     this.countries = countries;
     this.listener = listener;
   }
+  // endregion
 
+  // region Adapter Methods
   @NonNull @Override
   public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
     View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_country, parent, false);
@@ -49,7 +54,9 @@ public class CountriesAdapter extends
   @Override public int getItemCount() {
     return countries.size();
   }
+  // endregion
 
+  // region ViewHolder
   class ViewHolder extends RecyclerView.ViewHolder {
     private ImageView countryFlagImageView;
     private TextView countryNameText;
@@ -62,4 +69,5 @@ public class CountriesAdapter extends
       rootView = itemView.findViewById(R.id.rootView);
     }
   }
+  // endregion
 }

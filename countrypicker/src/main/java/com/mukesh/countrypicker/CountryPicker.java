@@ -4,7 +4,6 @@ import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v4.app.FragmentManager;
 import android.telephony.TelephonyManager;
-import android.util.Log;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -283,6 +282,7 @@ public class CountryPicker
   private Context context;
   private int sortBy = SORT_BY_NONE;
   private CountryPickerListener countryPickerListener;
+  private boolean canSearch = true;
 
   private List<Country> countries;
   // endregion
@@ -295,6 +295,7 @@ public class CountryPicker
     sortBy = builder.sortBy;
     countryPickerListener = builder.countryPickerListener;
     context = builder.context;
+    canSearch = builder.canSearch;
     countries = new ArrayList<>(Arrays.asList(COUNTRIES));
     sortCountries(countries);
   }
@@ -330,6 +331,11 @@ public class CountryPicker
   @Override public List<Country> getAllCountries() {
     return countries;
   }
+
+  @Override public boolean canSearch() {
+    return canSearch;
+  }
+
   // endregion
 
   // region Utility Methods
@@ -393,7 +399,8 @@ public class CountryPicker
   // region Builder
   public static class Builder {
     private Context context;
-    private int sortBy;
+    private int sortBy = SORT_BY_NONE;
+    private boolean canSearch = true;
     private CountryPickerListener countryPickerListener;
 
     public Builder with(@NonNull Context context) {
@@ -408,6 +415,11 @@ public class CountryPicker
 
     public Builder listener(@NonNull CountryPickerListener countryPickerListener) {
       this.countryPickerListener = countryPickerListener;
+      return this;
+    }
+
+    public Builder canSearch(@NonNull boolean canSearch) {
+      this.canSearch = canSearch;
       return this;
     }
 

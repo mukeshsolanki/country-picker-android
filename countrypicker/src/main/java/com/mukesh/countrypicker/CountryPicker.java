@@ -1,12 +1,15 @@
 package com.mukesh.countrypicker;
 
+import android.content.Context;
 import android.support.v4.app.FragmentManager;
+import android.telephony.TelephonyManager;
 import android.util.Log;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Locale;
 
 public class CountryPicker
     implements CountryPickerDialog.CountryPickerDialogInteractionListener {
@@ -339,6 +342,45 @@ public class CountryPicker
     }
   }
 
+  public Country getCountryFromSIM(Context context) {
+    TelephonyManager telephonyManager =
+        (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
+    if (telephonyManager != null
+        && telephonyManager.getSimState() != TelephonyManager.SIM_STATE_ABSENT) {
+      return getCountryByISO(telephonyManager.getSimCountryIso());
+    }
+    return null;
+  }
+
+  public Country getCountryByLocale(Locale locale) {
+    String countryIsoCode = locale.getISO3Country().substring(0, 2).toLowerCase();
+    return getCountryByISO(countryIsoCode);
+  }
+
+  public Country getCountryByName(String countryName) {
+    countryName = countryName.toUpperCase();
+    Country country = new Country();
+    country.setName(countryName);
+    int i = Arrays.binarySearch(COUNTRIES, country, new NameComparator());
+    if (i < 0) {
+      return null;
+    } else {
+      return COUNTRIES[i];
+    }
+  }
+
+  public Country getCountryByISO(String countryIsoCode) {
+    countryIsoCode = countryIsoCode.toUpperCase();
+    Country country = new Country();
+    country.setCode(countryIsoCode);
+    int i = Arrays.binarySearch(COUNTRIES, country, new ISOCodeComparator());
+    if (i < 0) {
+      return null;
+    } else {
+      return COUNTRIES[i];
+    }
+  }
+
   public static class Builder {
     private int sortBy;
     private CountryPickerListener countryPickerListener;
@@ -359,6 +401,20 @@ public class CountryPicker
             "CountryPicker is not set you will not receive any callback for country picked!");
       }
       return new CountryPicker(this);
+    }
+  }
+
+  public static class ISOCodeComparator implements Comparator<Country> {
+    @Override
+    public int compare(Country country, Country t1) {
+      return country.getCode().compareTo(t1.getCode());
+    }
+  }
+
+  public static class NameComparator implements Comparator<Country> {
+    @Override
+    public int compare(Country country, Country t1) {
+      return country.getName().compareTo(t1.getName());
     }
   }
 }

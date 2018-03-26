@@ -57,8 +57,9 @@ public class CountryPickerDialog extends DialogFragment {
       }
     });
 
-    searchEditText.addTextChangedListener(new TextWatcher() {
 
+
+    searchEditText.addTextChangedListener(new TextWatcher() {
       @Override
       public void onTextChanged(CharSequence s, int start, int before, int count) {
       }

@@ -11,12 +11,15 @@ public class Country {
   private int flag;
   private String currency;
 
-  public Country(String code, String name, String dialCode, int flag, String currency) {
+  Country(String code, String name, String dialCode, int flag, String currency) {
     this.code = code;
     this.name = name;
     this.dialCode = dialCode;
     this.flag = flag;
     this.currency = currency;
+  }
+
+  Country() {
   }
 
   public String getCurrency() {

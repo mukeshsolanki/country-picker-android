@@ -5,11 +5,18 @@ import android.text.TextUtils;
 import java.util.Locale;
 
 public class Country {
+
+  // region Variables
   private String code;
   private String name;
   private String dialCode;
   private int flag;
   private String currency;
+  // endregion
+
+  // region Constructors
+  Country() {
+  }
 
   Country(String code, String name, String dialCode, int flag, String currency) {
     this.code = code;
@@ -18,10 +25,9 @@ public class Country {
     this.flag = flag;
     this.currency = currency;
   }
+  // endregion
 
-  Country() {
-  }
-
+  // region Getter/Setter
   public String getCurrency() {
     return currency;
   }
@@ -79,4 +85,5 @@ public class Country {
       this.flag = -1;
     }
   }
+  // endregion
 }

@@ -10,23 +10,24 @@ import android.widget.TextView;
 
 import java.util.List;
 
-/**
- * Created by mukesh on 25/04/16.
- */
 public class CountryListAdapter extends BaseAdapter {
 
-  private Context mContext;
-  List<Country> countries;
-  LayoutInflater inflater;
+  // region Variable
+  private Context context;
+  private List<Country> countries;
+  private LayoutInflater inflater;
+  // endregion
 
-  public CountryListAdapter(Context context,
-      List<Country> countries) {
+  // region Constructor
+  public CountryListAdapter(Context context, List<Country> countries) {
     super();
-    this.mContext = context;
+    this.context = context;
     this.countries = countries;
     inflater = LayoutInflater.from(context);
   }
+  //endregion
 
+  // region AdapterMethods
   @Override
   public int getCount() {
     return countries.size();
@@ -50,34 +51,37 @@ public class CountryListAdapter extends BaseAdapter {
       view = inflater.inflate(R.layout.row, null);
     }
 
-    Cell cell = Cell.from(view);
-    cell.textView.setText(country.getName());
+    ViewHolder viewHolder = ViewHolder.from(view);
+    viewHolder.textView.setText(country.getName());
 
-    country.loadFlagByCode(mContext);
+    country.loadFlagByCode(context);
     if (country.getFlag() != -1) {
-      cell.imageView.setImageResource(country.getFlag());
+      viewHolder.imageView.setImageResource(country.getFlag());
     }
     return view;
   }
+  // endregion
 
-  static class Cell {
-    public TextView textView;
-    public ImageView imageView;
+  // region ViewHolder
+  static class ViewHolder {
+    TextView textView;
+    ImageView imageView;
 
-    static Cell from(View view) {
+    static ViewHolder from(View view) {
       if (view == null) {
         return null;
       }
 
       if (view.getTag() == null) {
-        Cell cell = new Cell();
-        cell.textView = (TextView) view.findViewById(R.id.row_title);
-        cell.imageView = (ImageView) view.findViewById(R.id.row_icon);
-        view.setTag(cell);
-        return cell;
+        ViewHolder viewHolder = new ViewHolder();
+        viewHolder.textView = view.findViewById(R.id.row_title);
+        viewHolder.imageView = view.findViewById(R.id.row_icon);
+        view.setTag(viewHolder);
+        return viewHolder;
       } else {
-        return (Cell) view.getTag();
+        return (ViewHolder) view.getTag();
       }
     }
   }
+  // endregion
 }

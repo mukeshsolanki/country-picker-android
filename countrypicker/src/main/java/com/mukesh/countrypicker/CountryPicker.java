@@ -1,6 +1,7 @@
 package com.mukesh.countrypicker;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
 import android.support.v4.app.FragmentManager;
 import android.telephony.TelephonyManager;
 import android.util.Log;
@@ -277,24 +278,30 @@ public class CountryPicker
   public static final int SORT_BY_NAME = 1;
   public static final int SORT_BY_ISO = 2;
   public static final int SORT_BY_DIAL_CODE = 3;
+  private static final String COUNTRY_TAG = "COUNTRY_PICKER";
 
+  private Context context;
   private int sortBy = SORT_BY_NONE;
   private CountryPickerListener countryPickerListener;
 
   private List<Country> countries;
   // endregion
 
+  // region Constructors
   private CountryPicker() {
   }
 
   CountryPicker(Builder builder) {
     sortBy = builder.sortBy;
     countryPickerListener = builder.countryPickerListener;
+    context = builder.context;
     countries = new ArrayList<>(Arrays.asList(COUNTRIES));
     sortCountries(countries);
   }
+  // endregion
 
-  @Override public void sortCountries(List<Country> countries) {
+  // region Listeners
+  @Override public void sortCountries(@NonNull List<Country> countries) {
     switch (sortBy) {
       case SORT_BY_NAME:
         Collections.sort(countries, new Comparator<Country>() {
@@ -323,26 +330,27 @@ public class CountryPicker
   @Override public List<Country> getAllCountries() {
     return countries;
   }
+  // endregion
 
-  public void setCountries(List<Country> countries) {
+  // region Utility Methods
+  public void showDialog(@NonNull FragmentManager supportFragmentManager) {
+    if (countries == null || countries.isEmpty()) {
+      throw new IllegalArgumentException(context.getString(R.string.error_no_countries_found));
+    } else {
+      CountryPickerDialog countryPickerDialog = CountryPickerDialog.newInstance();
+      countryPickerDialog.setCountryPickerListener(countryPickerListener);
+      countryPickerDialog.setDialogInteractionListener(this);
+      countryPickerDialog.show(supportFragmentManager, COUNTRY_TAG);
+    }
+  }
+
+  public void setCountries(@NonNull List<Country> countries) {
     this.countries.clear();
     this.countries.addAll(countries);
     sortCountries(this.countries);
   }
 
-  public void showDialog(FragmentManager supportFragmentManager) {
-    if (countries == null || countries.isEmpty()) {
-      Log.e(CountryPicker.class.getName(),
-          "No Countries Found! Did you call build()");
-    } else {
-      CountryPickerDialog countryPickerDialog = CountryPickerDialog.newInstance();
-      countryPickerDialog.setCountryPickerListener(countryPickerListener);
-      countryPickerDialog.setDialogInteractionListener(this);
-      countryPickerDialog.show(supportFragmentManager, "COUNTRY_PICKER");
-    }
-  }
-
-  public Country getCountryFromSIM(Context context) {
+  public Country getCountryFromSIM(@NonNull Context context) {
     TelephonyManager telephonyManager =
         (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
     if (telephonyManager != null
@@ -352,12 +360,12 @@ public class CountryPicker
     return null;
   }
 
-  public Country getCountryByLocale(Locale locale) {
+  public Country getCountryByLocale(@NonNull Locale locale) {
     String countryIsoCode = locale.getISO3Country().substring(0, 2).toLowerCase();
     return getCountryByISO(countryIsoCode);
   }
 
-  public Country getCountryByName(String countryName) {
+  public Country getCountryByName(@NonNull String countryName) {
     countryName = countryName.toUpperCase();
     Country country = new Country();
     country.setName(countryName);
@@ -369,7 +377,7 @@ public class CountryPicker
     }
   }
 
-  public Country getCountryByISO(String countryIsoCode) {
+  public Country getCountryByISO(@NonNull String countryIsoCode) {
     countryIsoCode = countryIsoCode.toUpperCase();
     Country country = new Country();
     country.setCode(countryIsoCode);
@@ -380,41 +388,52 @@ public class CountryPicker
       return COUNTRIES[i];
     }
   }
+  // endregion
 
+  // region Builder
   public static class Builder {
+    private Context context;
     private int sortBy;
     private CountryPickerListener countryPickerListener;
 
-    public Builder sortBy(int sortBy) {
+    public Builder with(@NonNull Context context) {
+      this.context = context;
+      return this;
+    }
+
+    public Builder sortBy(@NonNull int sortBy) {
       this.sortBy = sortBy;
       return this;
     }
 
-    public Builder with(CountryPickerListener countryPickerListener) {
+    public Builder listener(@NonNull CountryPickerListener countryPickerListener) {
       this.countryPickerListener = countryPickerListener;
       return this;
     }
 
     public CountryPicker build() {
       if (countryPickerListener == null) {
-        Log.e(CountryPicker.class.getName(),
-            "CountryPicker is not set you will not receive any callback for country picked!");
+        throw new IllegalArgumentException(
+            context.getString(R.string.error_listener_not_set));
       }
       return new CountryPicker(this);
     }
   }
+  // endregion
 
+  // region Comparators
   public static class ISOCodeComparator implements Comparator<Country> {
     @Override
-    public int compare(Country country, Country t1) {
-      return country.getCode().compareTo(t1.getCode());
+    public int compare(Country country, Country nextCountry) {
+      return country.getCode().compareTo(nextCountry.getCode());
     }
   }
 
   public static class NameComparator implements Comparator<Country> {
     @Override
-    public int compare(Country country, Country t1) {
-      return country.getName().compareTo(t1.getName());
+    public int compare(Country country, Country nextCountry) {
+      return country.getName().compareTo(nextCountry.getName());
     }
   }
+  // endregion
 }

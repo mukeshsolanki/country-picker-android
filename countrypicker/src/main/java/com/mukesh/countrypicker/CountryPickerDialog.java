@@ -1,6 +1,5 @@
 package com.mukesh.countrypicker;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
@@ -18,19 +17,22 @@ import java.util.Locale;
 
 public class CountryPickerDialog extends DialogFragment {
 
-  private static String BUNDLE_KEY_COUNTRY_PICKER = "country_picker";
+  // region Variables
   private CountryPickerDialogInteractionListener dialogInteractionListener;
-
   private EditText searchEditText;
   private ListView countryListView;
   private CountryListAdapter adapter;
   private List<Country> searchResults;
   private CountryPickerListener listener;
+  // endregion
 
+  // region Constructors
   public static CountryPickerDialog newInstance() {
     return new CountryPickerDialog();
   }
+  // endregion
 
+  // region Lifecycle
   @Nullable @Override
   public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
       Bundle savedInstanceState) {
@@ -57,8 +59,6 @@ public class CountryPickerDialog extends DialogFragment {
       }
     });
 
-
-
     searchEditText.addTextChangedListener(new TextWatcher() {
       @Override
       public void onTextChanged(CharSequence s, int start, int before, int count) {
@@ -76,7 +76,9 @@ public class CountryPickerDialog extends DialogFragment {
 
     return view;
   }
+  // endregion
 
+  // region Setter Methods
   public void setCountryPickerListener(CountryPickerListener listener) {
     this.listener = listener;
   }
@@ -85,7 +87,9 @@ public class CountryPickerDialog extends DialogFragment {
       CountryPickerDialogInteractionListener dialogInteractionListener) {
     this.dialogInteractionListener = dialogInteractionListener;
   }
+  // endregion
 
+  // region Utility Methods
   private void search(String searchQuery) {
     searchResults.clear();
     for (Country country : dialogInteractionListener.getAllCountries()) {
@@ -96,10 +100,13 @@ public class CountryPickerDialog extends DialogFragment {
     dialogInteractionListener.sortCountries(searchResults);
     adapter.notifyDataSetChanged();
   }
+  // endregion
 
+  //region Interface
   public interface CountryPickerDialogInteractionListener {
     List<Country> getAllCountries();
 
     void sortCountries(List<Country> searchResults);
   }
+  // endregion
 }

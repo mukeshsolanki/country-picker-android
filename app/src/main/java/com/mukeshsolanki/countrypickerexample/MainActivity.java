@@ -11,9 +11,6 @@ import com.mukesh.countrypicker.Country;
 import com.mukesh.countrypicker.CountryPicker;
 import com.mukesh.countrypicker.CountryPickerListener;
 
-import java.util.ArrayList;
-import java.util.Collections;
-
 public class MainActivity extends AppCompatActivity implements CountryPickerListener {
 
   private TextView mCountryNameTextView, mCountryIsoCodeTextView, mCountryDialCodeTextView,
@@ -47,7 +44,10 @@ public class MainActivity extends AppCompatActivity implements CountryPickerList
     mCountryFlagImageView = findViewById(R.id.selected_country_flag_image_view);
     mSelectedCountryCurrency = findViewById(R.id.selected_country_currency);
     mCountryPicker =
-        new CountryPicker.Builder().with(this).sortBy(CountryPicker.SORT_BY_DIAL_CODE).build();
+        new CountryPicker.Builder().with(this)
+            .listener(this)
+            .sortBy(CountryPicker.SORT_BY_DIAL_CODE)
+            .build();
   }
 
   @Override

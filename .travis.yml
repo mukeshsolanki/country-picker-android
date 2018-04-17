@@ -4,7 +4,7 @@ android:
   components:
   - platform-tools
   - tools
-  - build-tools-27.1.0
+  - build-tools-27.0.3
   - android-27
   - extra-android-support
   - extra-google-m2repository
@@ -18,4 +18,10 @@ before_script:
 script:
 - "./gradlew clean test"
 notifications:
-  email: false
+  email:
+    recipients:
+      - support@madapps.in
+    on_success: never
+    on_failure: always
+
+  slack: madappstechnologies:0T1TW6lCma5wp1IPYn4hRp5H

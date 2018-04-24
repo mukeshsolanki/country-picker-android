@@ -8,8 +8,8 @@ android {
   defaultConfig {
     minSdkVersion 14
     targetSdkVersion 27
-    versionCode 11
-    versionName "1.2.2"
+    versionCode 12
+    versionName "1.2.3"
   }
   buildTypes {
     release {
@@ -21,6 +21,6 @@ android {
 
 dependencies {
   implementation fileTree(dir: 'libs', include: ['*.jar'])
-  implementation 'com.android.support:support-v4:27.1.0'
-  implementation 'com.android.support:design:27.1.0'
+  implementation 'com.android.support:support-v4:27.1.1'
+  implementation 'com.android.support:design:27.1.1'
 }

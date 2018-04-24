@@ -293,7 +293,9 @@ public class CountryPicker
 
   CountryPicker(Builder builder) {
     sortBy = builder.sortBy;
-    onCountryPickerListener = builder.onCountryPickerListener;
+    if (builder.onCountryPickerListener != null) {
+      onCountryPickerListener = builder.onCountryPickerListener;
+    }
     context = builder.context;
     canSearch = builder.canSearch;
     countries = new ArrayList<>(Arrays.asList(COUNTRIES));
@@ -344,7 +346,9 @@ public class CountryPicker
       throw new IllegalArgumentException(context.getString(R.string.error_no_countries_found));
     } else {
       CountryPickerDialog countryPickerDialog = CountryPickerDialog.newInstance();
-      countryPickerDialog.setCountryPickerListener(onCountryPickerListener);
+      if (onCountryPickerListener != null) {
+        countryPickerDialog.setCountryPickerListener(onCountryPickerListener);
+      }
       countryPickerDialog.setDialogInteractionListener(this);
       countryPickerDialog.show(supportFragmentManager, COUNTRY_TAG);
     }
@@ -424,10 +428,6 @@ public class CountryPicker
     }
 
     public CountryPicker build() {
-      if (onCountryPickerListener == null) {
-        throw new IllegalArgumentException(
-            context.getString(R.string.error_listener_not_set));
-      }
       return new CountryPicker(this);
     }
   }

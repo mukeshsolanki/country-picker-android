@@ -65,8 +65,8 @@ public class CountryPickerDialog extends DialogFragment implements OnItemClickLi
   @Override public void onItemClicked(Country country) {
     if (listener != null) {
       listener.onSelectCountry(country);
-      dismiss();
     }
+    dismiss();
   }
   // endregion
 

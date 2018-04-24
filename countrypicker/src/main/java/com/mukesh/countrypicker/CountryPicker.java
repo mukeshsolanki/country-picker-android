@@ -356,7 +356,7 @@ public class CountryPicker
     sortCountries(this.countries);
   }
 
-  public Country getCountryFromSIM(@NonNull Context context) {
+  public Country getCountryFromSIM() {
     TelephonyManager telephonyManager =
         (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
     if (telephonyManager != null

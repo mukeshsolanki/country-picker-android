@@ -12,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
@@ -60,6 +61,14 @@ public class CountryPickerDialog extends DialogFragment implements OnItemClickLi
       }
     });
     return view;
+  }
+
+  @Override public void onStart() {
+    super.onStart();
+    ViewGroup.LayoutParams params = getDialog().getWindow().getAttributes();
+    params.width = LinearLayout.LayoutParams.MATCH_PARENT;
+    params.height = LinearLayout.LayoutParams.MATCH_PARENT;
+    getDialog().getWindow().setAttributes((android.view.WindowManager.LayoutParams) params);
   }
 
   @Override public void onItemClicked(Country country) {

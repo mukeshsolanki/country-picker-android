@@ -59,7 +59,7 @@ List<Country> countries = countryPicker.getAllCountries(); //List of all countri
 Country country = countryPicker.getCountryFromSIM(context); //Get user country based on SIM card
 Country country = countryPicker.getCountryByLocale(locale); //Get country based on Locale
 Country country = countryPicker.getCountryByName(countryName); //Get country by its name
-Country country = countryPicker.getCountryByISO(); //Get country by its ISO code
+Country country = countryPicker.getCountryByISO(countryIsoCode); //Get country by its ISO code
 
 String name = country.getName();
 String code = country.getCode();

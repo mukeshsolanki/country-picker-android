@@ -376,7 +376,6 @@ public class CountryPicker
   }
 
   public Country getCountryByName(@NonNull String countryName) {
-    countryName = countryName.toUpperCase();
     Country country = new Country();
     country.setName(countryName);
     int i = Arrays.binarySearch(COUNTRIES, country, new NameComparator());
@@ -444,7 +443,7 @@ public class CountryPicker
   public static class NameComparator implements Comparator<Country> {
     @Override
     public int compare(Country country, Country nextCountry) {
-      return country.getName().compareTo(nextCountry.getName());
+      return country.getName().compareToIgnoreCase(nextCountry.getName());
     }
   }
   // endregion

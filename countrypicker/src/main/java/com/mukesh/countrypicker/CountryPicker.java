@@ -313,6 +313,7 @@ public class CountryPicker
             return country1.getName().trim().compareToIgnoreCase(country2.getName().trim());
           }
         });
+        break;
       case SORT_BY_ISO:
         Collections.sort(countries, new Comparator<Country>() {
           @Override
@@ -320,6 +321,7 @@ public class CountryPicker
             return country1.getCode().trim().compareToIgnoreCase(country2.getCode().trim());
           }
         });
+        break;
       case SORT_BY_DIAL_CODE:
         Collections.sort(countries, new Comparator<Country>() {
           @Override
@@ -327,6 +329,7 @@ public class CountryPicker
             return country1.getDialCode().trim().compareToIgnoreCase(country2.getDialCode().trim());
           }
         });
+        break;
     }
   }
 

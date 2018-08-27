@@ -379,26 +379,28 @@ public class CountryPicker
   }
 
   public Country getCountryByName(@NonNull String countryName) {
-    countryName = countryName.toUpperCase();
+    List<Country> countries = getAllCountries();
+    Collections.sort(countries, new NameComparator());
     Country country = new Country();
     country.setName(countryName);
-    int i = Arrays.binarySearch(COUNTRIES, country, new NameComparator());
+    int i = Collections.binarySearch(countries, country, new NameComparator());
     if (i < 0) {
       return null;
     } else {
-      return COUNTRIES[i];
+      return countries.get(i);
     }
   }
 
   public Country getCountryByISO(@NonNull String countryIsoCode) {
-    countryIsoCode = countryIsoCode.toUpperCase();
+    List<Country> countries = getAllCountries();
+    Collections.sort(countries, new ISOCodeComparator());
     Country country = new Country();
     country.setCode(countryIsoCode);
-    int i = Arrays.binarySearch(COUNTRIES, country, new ISOCodeComparator());
+    int i = Collections.binarySearch(countries, country, new ISOCodeComparator());
     if (i < 0) {
       return null;
     } else {
-      return COUNTRIES[i];
+      return countries.get(i);
     }
   }
   // endregion
@@ -440,14 +442,14 @@ public class CountryPicker
   public static class ISOCodeComparator implements Comparator<Country> {
     @Override
     public int compare(Country country, Country nextCountry) {
-      return country.getCode().compareTo(nextCountry.getCode());
+      return country.getCode().compareToIgnoreCase(nextCountry.getCode());
     }
   }
 
   public static class NameComparator implements Comparator<Country> {
     @Override
     public int compare(Country country, Country nextCountry) {
-      return country.getName().compareTo(nextCountry.getName());
+      return country.getName().compareToIgnoreCase(nextCountry.getName());
     }
   }
   // endregion

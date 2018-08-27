@@ -1,5 +1,6 @@
 package com.mukesh.countrypicker;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -8,11 +9,14 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
@@ -58,6 +62,16 @@ public class CountryPickerDialog extends DialogFragment implements OnItemClickLi
       @Override
       public void afterTextChanged(Editable searchQuery) {
         search(searchQuery.toString());
+      }
+    });
+    searchEditText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+      @Override public boolean onEditorAction(TextView textView, int i, KeyEvent keyEvent) {
+        InputMethodManager imm = (InputMethodManager) searchEditText.getContext()
+            .getSystemService(Context.INPUT_METHOD_SERVICE);
+        if (imm != null) {
+          imm.hideSoftInputFromWindow(searchEditText.getWindowToken(), 0);
+        }
+        return true;
       }
     });
     return view;

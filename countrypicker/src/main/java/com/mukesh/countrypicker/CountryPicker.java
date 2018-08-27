@@ -305,31 +305,27 @@ public class CountryPicker
 
   // region Listeners
   @Override public void sortCountries(@NonNull List<Country> countries) {
-    switch (sortBy) {
-      case SORT_BY_NAME:
-        Collections.sort(countries, new Comparator<Country>() {
-          @Override
-          public int compare(Country country1, Country country2) {
-            return country1.getName().trim().compareToIgnoreCase(country2.getName().trim());
-          }
-        });
-        break;
-      case SORT_BY_ISO:
-        Collections.sort(countries, new Comparator<Country>() {
-          @Override
-          public int compare(Country country1, Country country2) {
-            return country1.getCode().trim().compareToIgnoreCase(country2.getCode().trim());
-          }
-        });
-        break;
-      case SORT_BY_DIAL_CODE:
-        Collections.sort(countries, new Comparator<Country>() {
-          @Override
-          public int compare(Country country1, Country country2) {
-            return country1.getDialCode().trim().compareToIgnoreCase(country2.getDialCode().trim());
-          }
-        });
-        break;
+    if (sortBy == SORT_BY_NAME) {
+      Collections.sort(countries, new Comparator<Country>() {
+        @Override
+        public int compare(Country country1, Country country2) {
+          return country1.getName().trim().compareToIgnoreCase(country2.getName().trim());
+        }
+      });
+    } else if (sortBy == SORT_BY_ISO) {
+      Collections.sort(countries, new Comparator<Country>() {
+        @Override
+        public int compare(Country country1, Country country2) {
+          return country1.getCode().trim().compareToIgnoreCase(country2.getCode().trim());
+        }
+      });
+    } else if (sortBy == SORT_BY_DIAL_CODE) {
+      Collections.sort(countries, new Comparator<Country>() {
+        @Override
+        public int compare(Country country1, Country country2) {
+          return country1.getDialCode().trim().compareToIgnoreCase(country2.getDialCode().trim());
+        }
+      });
     }
   }
 

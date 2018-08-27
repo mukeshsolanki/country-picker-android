@@ -53,10 +53,12 @@ public class CountryPickerDialog extends DialogFragment implements OnItemClickLi
     searchEditText.addTextChangedListener(new TextWatcher() {
       @Override
       public void onTextChanged(CharSequence s, int start, int before, int count) {
+        // Intentionally Empty
       }
 
       @Override
       public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+        // Intentionally Empty
       }
 
       @Override

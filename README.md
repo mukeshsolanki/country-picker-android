@@ -1,10 +1,16 @@
-# Country Picker for Android
-
-[![](https://jitpack.io/v/mukeshsolanki/country-picker-android/month.svg)](https://jitpack.io/#mukeshsolanki/country-picker-android) [![](https://img.shields.io/badge/API-9%2B-blue.svg?style=flat)](https://android-arsenal.com/api?level=9) [![](https://jitpack.io/v/mukeshsolanki/country-picker-android.svg)](https://jitpack.io/#mukeshsolanki/country-picker-android) [![](https://img.shields.io/badge/Android%20Arsenal-Country%20Picker-brightgreen.svg?style=flat)](http://android-arsenal.com/details/3/3561) [![](https://travis-ci.org/mukeshsolanki/country-picker-android.svg?branch=master)](https://travis-ci.org/mukeshsolanki/country-picker-android) [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0) [![](https://img.shields.io/badge/paypal-donate-yellow.svg)](https://www.paypal.me/mukeshsolanki)
-
+<h1 align="center">Country Picker for Android</h1>
+<p align="center">
+  <a class="badge-align" href="https://www.codacy.com/app/mukeshsolanki/country-picker-android?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=mukeshsolanki/country-picker-android&amp;utm_campaign=Badge_Grade"><img src="https://api.codacy.com/project/badge/Grade/3dc5d577c3a14413b871ee8bb53c6e80"/></a>
+  <a href="https://jitpack.io/#mukeshsolanki/country-picker-android"> <img src="https://jitpack.io/v/mukeshsolanki/country-picker-android.svg" /></a>
+  <a href="https://circleci.com/gh/mukeshsolanki/country-picker-android/tree/master"> <img src="https://circleci.com/gh/mukeshsolanki/country-picker-android/tree/master.svg?style=shield" /></a>
+  <a href="https://opensource.org/licenses/Apache-2.0"><img src="https://img.shields.io/badge/License-Apache%202.0-blue.svg"/></a>
+  <a href="https://www.paypal.me/mukeshsolanki"> <img src="https://img.shields.io/badge/paypal-donate-yellow.svg" /></a>
+  <br /><br />
 CountryPicker is a simple library that can be show a country picker. See the example to see more detail.
+</p>
+ <br /><br />
+<img src="https://raw.githubusercontent.com/mukeshsolanki/country-picker-android/master/Screenshot_20160506-152951.png" width="270" height="480" />
 
-![](https://raw.githubusercontent.com/mukeshsolanki/country-picker-android/master/Screenshot_20160506-152951.png)
 
 ## How to use
 

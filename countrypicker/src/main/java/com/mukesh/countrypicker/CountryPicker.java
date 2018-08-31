@@ -2,6 +2,7 @@ package com.mukesh.countrypicker;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
+import android.support.annotation.StyleRes;
 import android.support.v4.app.FragmentManager;
 import android.telephony.TelephonyManager;
 import java.util.ArrayList;
@@ -279,6 +280,7 @@ public class CountryPicker
   public static final int SORT_BY_DIAL_CODE = 3;
   private static final String COUNTRY_TAG = "COUNTRY_PICKER";
 
+  private int style;
   private Context context;
   private int sortBy = SORT_BY_NONE;
   private OnCountryPickerListener onCountryPickerListener;
@@ -296,6 +298,7 @@ public class CountryPicker
     if (builder.onCountryPickerListener != null) {
       onCountryPickerListener = builder.onCountryPickerListener;
     }
+    style = builder.style;
     context = builder.context;
     canSearch = builder.canSearch;
     countries = new ArrayList<>(Arrays.asList(COUNTRIES));
@@ -344,7 +347,7 @@ public class CountryPicker
     if (countries == null || countries.isEmpty()) {
       throw new IllegalArgumentException(context.getString(R.string.error_no_countries_found));
     } else {
-      CountryPickerDialog countryPickerDialog = CountryPickerDialog.newInstance();
+      CountryPickerDialog countryPickerDialog = CountryPickerDialog.newInstance(style);
       if (onCountryPickerListener != null) {
         countryPickerDialog.setCountryPickerListener(onCountryPickerListener);
       }
@@ -407,9 +410,15 @@ public class CountryPicker
     private int sortBy = SORT_BY_NONE;
     private boolean canSearch = true;
     private OnCountryPickerListener onCountryPickerListener;
+    private int style;
 
     public Builder with(@NonNull Context context) {
       this.context = context;
+      return this;
+    }
+
+    public Builder style(@NonNull @StyleRes int style) {
+      this.style = style;
       return this;
     }
 

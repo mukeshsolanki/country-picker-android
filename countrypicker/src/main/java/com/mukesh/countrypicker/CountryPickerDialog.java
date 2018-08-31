@@ -13,6 +13,7 @@ import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -42,7 +43,7 @@ public class CountryPickerDialog extends DialogFragment implements OnItemClickLi
   @Nullable @Override
   public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
       Bundle savedInstanceState) {
-    View view = inflater.inflate(R.layout.country_picker, null);
+    View view = inflater.inflate(R.layout.country_picker, container);
     getDialog().setTitle(R.string.country_picker_header);
     searchEditText = view.findViewById(R.id.country_code_picker_search);
     countriesRecyclerView = view.findViewById(R.id.countries_recycler_view);
@@ -81,10 +82,12 @@ public class CountryPickerDialog extends DialogFragment implements OnItemClickLi
 
   @Override public void onStart() {
     super.onStart();
-    ViewGroup.LayoutParams params = getDialog().getWindow().getAttributes();
-    params.width = LinearLayout.LayoutParams.MATCH_PARENT;
-    params.height = LinearLayout.LayoutParams.MATCH_PARENT;
-    getDialog().getWindow().setAttributes((android.view.WindowManager.LayoutParams) params);
+    if (getDialog().getWindow() != null) {
+      WindowManager.LayoutParams params = getDialog().getWindow().getAttributes();
+      params.width = LinearLayout.LayoutParams.MATCH_PARENT;
+      params.height = LinearLayout.LayoutParams.MATCH_PARENT;
+      getDialog().getWindow().setAttributes(params);
+    }
   }
 
   @Override public void onItemClicked(Country country) {

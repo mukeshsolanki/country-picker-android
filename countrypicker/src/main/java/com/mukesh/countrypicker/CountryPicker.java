@@ -386,13 +386,14 @@ public class CountryPicker {
         params.height = LinearLayout.LayoutParams.MATCH_PARENT;
         dialog.getWindow().setAttributes(params);
         if (theme == THEME_NEW) {
-          dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
           Drawable background =
               ContextCompat.getDrawable(context, R.drawable.ic_dialog_new_background);
           if (background != null) {
             background.setColorFilter(
                 new PorterDuffColorFilter(backgroundColor, PorterDuff.Mode.SRC_ATOP));
           }
+          rootView.setBackgroundDrawable(background);
+          dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         }
       }
       dialog.show();
@@ -415,9 +416,14 @@ public class CountryPicker {
         if (bottomSheetDialog.getWindow() != null) {
           FrameLayout bottomSheet = bottomSheetDialog.getWindow()
               .findViewById(android.support.design.R.id.design_bottom_sheet);
-          bottomSheet.setBackgroundResource(R.drawable.ic_bottomsheet_new_background);
-          bottomSheet.getBackground().setColorFilter(
-              new PorterDuffColorFilter(backgroundColor, PorterDuff.Mode.SRC_ATOP));
+          bottomSheet.setBackgroundColor(Color.TRANSPARENT);
+          Drawable background =
+              ContextCompat.getDrawable(context, R.drawable.ic_bottomsheet_new_background);
+          if (background != null) {
+            background.setColorFilter(
+                new PorterDuffColorFilter(backgroundColor, PorterDuff.Mode.SRC_ATOP));
+          }
+          rootView.setBackgroundDrawable(background);
         }
       }
       bottomSheetDialog.show();

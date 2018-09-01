@@ -412,19 +412,17 @@ public class CountryPicker {
       setSearchEditText();
       setupRecyclerView(sheetView);
       bottomSheetDialog.setContentView(sheetView);
-      if (theme == THEME_NEW) {
-        if (bottomSheetDialog.getWindow() != null) {
-          FrameLayout bottomSheet = bottomSheetDialog.getWindow()
-              .findViewById(android.support.design.R.id.design_bottom_sheet);
-          bottomSheet.setBackgroundColor(Color.TRANSPARENT);
-          Drawable background =
-              ContextCompat.getDrawable(context, R.drawable.ic_bottomsheet_new_background);
-          if (background != null) {
-            background.setColorFilter(
-                new PorterDuffColorFilter(backgroundColor, PorterDuff.Mode.SRC_ATOP));
-          }
-          rootView.setBackgroundDrawable(background);
+      if (theme == THEME_NEW && bottomSheetDialog.getWindow() != null) {
+        FrameLayout bottomSheet = bottomSheetDialog.getWindow()
+            .findViewById(android.support.design.R.id.design_bottom_sheet);
+        bottomSheet.setBackgroundColor(Color.TRANSPARENT);
+        Drawable background =
+            ContextCompat.getDrawable(context, R.drawable.ic_bottomsheet_new_background);
+        if (background != null) {
+          background.setColorFilter(
+              new PorterDuffColorFilter(backgroundColor, PorterDuff.Mode.SRC_ATOP));
         }
+        rootView.setBackgroundDrawable(background);
       }
       bottomSheetDialog.show();
     }

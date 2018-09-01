@@ -17,7 +17,6 @@ public class ResultActivity extends AppCompatActivity {
   private TextView countryNameTextView, countryIsoCodeTextView, countryDialCodeTextView,
       selectedCountryCurrency;
   private ImageView countryFlagImageView;
-  private ImageButton backButton;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -44,7 +43,7 @@ public class ResultActivity extends AppCompatActivity {
     countryDialCodeTextView = findViewById(R.id.selected_country_dial_code_text_view);
     countryFlagImageView = findViewById(R.id.selected_country_flag_image_view);
     selectedCountryCurrency = findViewById(R.id.selected_country_currency);
-    backButton = findViewById(R.id.back_button);
+    ImageButton backButton = findViewById(R.id.back_button);
     backButton.setOnClickListener(new View.OnClickListener() {
       @Override public void onClick(View view) {
         finish();

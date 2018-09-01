@@ -1,10 +1,29 @@
 package com.mukesh.countrypicker;
 
+import android.app.Activity;
+import android.app.Dialog;
 import android.content.Context;
+import android.content.res.TypedArray;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
+import android.graphics.PorterDuffColorFilter;
+import android.graphics.drawable.Drawable;
 import android.support.annotation.NonNull;
 import android.support.annotation.StyleRes;
-import android.support.v4.app.FragmentManager;
+import android.support.design.widget.BottomSheetDialog;
+import android.support.v4.content.ContextCompat;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.telephony.TelephonyManager;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.view.KeyEvent;
+import android.view.View;
+import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -12,8 +31,7 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Locale;
 
-public class CountryPicker
-    implements CountryPickerDialog.CountryPickerDialogInteractionListener {
+public class CountryPicker {
 
   // region Countries
   private final Country[] COUNTRIES = {
@@ -278,7 +296,6 @@ public class CountryPicker
   public static final int SORT_BY_NAME = 1;
   public static final int SORT_BY_ISO = 2;
   public static final int SORT_BY_DIAL_CODE = 3;
-  private static final String COUNTRY_TAG = "COUNTRY_PICKER";
 
   private int style;
   private Context context;
@@ -287,6 +304,18 @@ public class CountryPicker
   private boolean canSearch = true;
 
   private List<Country> countries;
+  private EditText searchEditText;
+  private RecyclerView countriesRecyclerView;
+  private LinearLayout rootView;
+  private int textColor;
+  private int hintColor;
+  private int backgroundColor;
+  private int searchIconId;
+  private Drawable searchIcon;
+  private CountriesAdapter adapter;
+  private List<Country> searchResults;
+  private BottomSheetDialog bottomSheetDialog;
+  private Dialog dialog;
   // endregion
 
   // region Constructors
@@ -307,7 +336,7 @@ public class CountryPicker
   // endregion
 
   // region Listeners
-  @Override public void sortCountries(@NonNull List<Country> countries) {
+  private void sortCountries(@NonNull List<Country> countries) {
     if (sortBy == SORT_BY_NAME) {
       Collections.sort(countries, new Comparator<Country>() {
         @Override
@@ -332,29 +361,161 @@ public class CountryPicker
     }
   }
 
-  @Override public List<Country> getAllCountries() {
+  private List<Country> getAllCountries() {
     return countries;
   }
 
-  @Override public boolean canSearch() {
+  private boolean canSearch() {
     return canSearch;
   }
 
   // endregion
 
   // region Utility Methods
-  public void showDialog(@NonNull FragmentManager supportFragmentManager) {
+  public void showDialog(@NonNull Activity activity) {
     if (countries == null || countries.isEmpty()) {
       throw new IllegalArgumentException(context.getString(R.string.error_no_countries_found));
     } else {
-      CountryPickerDialog countryPickerDialog = CountryPickerDialog.newInstance(style);
-      if (onCountryPickerListener != null) {
-        countryPickerDialog.setCountryPickerListener(onCountryPickerListener);
+      dialog = new Dialog(activity);
+      View dialogView = activity.getLayoutInflater().inflate(R.layout.country_picker, null);
+      initiateUi(dialogView);
+      setCustomStyle(dialogView);
+      setSearchEditText();
+      setupRecyclerView(dialogView);
+      dialog.setContentView(dialogView);
+      if (dialog.getWindow() != null) {
+        WindowManager.LayoutParams params = dialog.getWindow().getAttributes();
+        params.width = LinearLayout.LayoutParams.MATCH_PARENT;
+        params.height = LinearLayout.LayoutParams.MATCH_PARENT;
+        dialog.getWindow().setAttributes(params);
       }
-      countryPickerDialog.setDialogInteractionListener(this);
-      countryPickerDialog.show(supportFragmentManager, COUNTRY_TAG);
+      dialog.show();
     }
   }
+
+  // region BottomSheet Methods
+  public void showBottomSheet(Activity activity) {
+    if (countries == null || countries.isEmpty()) {
+      throw new IllegalArgumentException(context.getString(R.string.error_no_countries_found));
+    } else {
+      bottomSheetDialog = new BottomSheetDialog(activity);
+      View sheetView = activity.getLayoutInflater().inflate(R.layout.country_picker, null);
+      initiateUi(sheetView);
+      setCustomStyle(sheetView);
+      setSearchEditText();
+      setupRecyclerView(sheetView);
+      bottomSheetDialog.setContentView(sheetView);
+      bottomSheetDialog.show();
+    }
+  }
+
+  private void setupRecyclerView(View sheetView) {
+    searchResults = new ArrayList<>();
+    searchResults.addAll(getAllCountries());
+    adapter = new CountriesAdapter(sheetView.getContext(), searchResults,
+        new OnItemClickListener() {
+          @Override public void onItemClicked(Country country) {
+            if (onCountryPickerListener != null) {
+              onCountryPickerListener.onSelectCountry(country);
+              if (bottomSheetDialog != null) {
+                bottomSheetDialog.dismiss();
+              }
+              if (dialog != null) {
+                dialog.dismiss();
+              }
+              dialog = null;
+              bottomSheetDialog = null;
+              textColor = 0;
+              hintColor = 0;
+              backgroundColor = 0;
+              searchIconId = 0;
+              searchIcon = null;
+            }
+          }
+        },
+        textColor);
+    countriesRecyclerView.setHasFixedSize(true);
+    LinearLayoutManager layoutManager = new LinearLayoutManager(sheetView.getContext());
+    layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+    countriesRecyclerView.setLayoutManager(layoutManager);
+    countriesRecyclerView.setAdapter(adapter);
+  }
+
+  private void setSearchEditText() {
+    if (canSearch) {
+      searchEditText.addTextChangedListener(new TextWatcher() {
+        @Override
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
+          // Intentionally Empty
+        }
+
+        @Override
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+          // Intentionally Empty
+        }
+
+        @Override
+        public void afterTextChanged(Editable searchQuery) {
+          search(searchQuery.toString());
+        }
+      });
+      searchEditText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+        @Override public boolean onEditorAction(TextView textView, int i, KeyEvent keyEvent) {
+          InputMethodManager imm = (InputMethodManager) searchEditText.getContext()
+              .getSystemService(Context.INPUT_METHOD_SERVICE);
+          if (imm != null) {
+            imm.hideSoftInputFromWindow(searchEditText.getWindowToken(), 0);
+          }
+          return true;
+        }
+      });
+    } else {
+      searchEditText.setVisibility(View.GONE);
+    }
+  }
+
+  private void search(String searchQuery) {
+    searchResults.clear();
+    for (Country country : getAllCountries()) {
+      if (country.getName().toLowerCase(Locale.ENGLISH).contains(searchQuery.toLowerCase())) {
+        searchResults.add(country);
+      }
+    }
+    sortCountries(searchResults);
+    adapter.notifyDataSetChanged();
+  }
+
+  @SuppressWarnings("ResourceType")
+  private void setCustomStyle(View sheetView) {
+    if (style != 0) {
+      int[] attrs =
+          {
+              android.R.attr.textColor, android.R.attr.textColorHint, android.R.attr.background,
+              android.R.attr.drawable
+          };
+      TypedArray ta = sheetView.getContext().obtainStyledAttributes(style, attrs);
+      textColor = ta.getColor(0, Color.BLACK);
+      hintColor = ta.getColor(1, Color.GRAY);
+      backgroundColor = ta.getColor(2, Color.WHITE);
+      searchIconId = ta.getResourceId(3, R.drawable.ic_search);
+      searchEditText.setTextColor(textColor);
+      searchEditText.setHintTextColor(hintColor);
+      searchIcon = ContextCompat.getDrawable(searchEditText.getContext(), searchIconId);
+      if (searchIconId == R.drawable.ic_search) {
+        searchIcon.setColorFilter(new PorterDuffColorFilter(hintColor, PorterDuff.Mode.SRC_ATOP));
+      }
+      searchEditText.setCompoundDrawablesWithIntrinsicBounds(searchIcon, null, null, null);
+      rootView.setBackgroundColor(backgroundColor);
+      ta.recycle();
+    }
+  }
+
+  private void initiateUi(View sheetView) {
+    searchEditText = sheetView.findViewById(R.id.country_code_picker_search);
+    countriesRecyclerView = sheetView.findViewById(R.id.countries_recycler_view);
+    rootView = sheetView.findViewById(R.id.rootView);
+  }
+  // endregion
 
   public void setCountries(@NonNull List<Country> countries) {
     this.countries.clear();

@@ -7,6 +7,7 @@ import android.content.res.TypedArray;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffColorFilter;
+import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.support.annotation.NonNull;
 import android.support.annotation.StyleRes;
@@ -22,6 +23,7 @@ import android.view.View;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import java.util.ArrayList;
@@ -296,6 +298,9 @@ public class CountryPicker {
   public static final int SORT_BY_NAME = 1;
   public static final int SORT_BY_ISO = 2;
   public static final int SORT_BY_DIAL_CODE = 3;
+  public static final int THEME_OLD = 1;
+  public static final int THEME_NEW = 2;
+  private int theme;
 
   private int style;
   private Context context;
@@ -330,6 +335,7 @@ public class CountryPicker {
     style = builder.style;
     context = builder.context;
     canSearch = builder.canSearch;
+    theme = builder.theme;
     countries = new ArrayList<>(Arrays.asList(COUNTRIES));
     sortCountries(countries);
   }
@@ -360,15 +366,6 @@ public class CountryPicker {
       });
     }
   }
-
-  private List<Country> getAllCountries() {
-    return countries;
-  }
-
-  private boolean canSearch() {
-    return canSearch;
-  }
-
   // endregion
 
   // region Utility Methods
@@ -388,6 +385,15 @@ public class CountryPicker {
         params.width = LinearLayout.LayoutParams.MATCH_PARENT;
         params.height = LinearLayout.LayoutParams.MATCH_PARENT;
         dialog.getWindow().setAttributes(params);
+        if (theme == THEME_NEW) {
+          dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+          Drawable background =
+              ContextCompat.getDrawable(context, R.drawable.ic_dialog_new_background);
+          if (background != null) {
+            background.setColorFilter(
+                new PorterDuffColorFilter(backgroundColor, PorterDuff.Mode.SRC_ATOP));
+          }
+        }
       }
       dialog.show();
     }
@@ -405,13 +411,22 @@ public class CountryPicker {
       setSearchEditText();
       setupRecyclerView(sheetView);
       bottomSheetDialog.setContentView(sheetView);
+      if (theme == THEME_NEW) {
+        if (bottomSheetDialog.getWindow() != null) {
+          FrameLayout bottomSheet = bottomSheetDialog.getWindow()
+              .findViewById(android.support.design.R.id.design_bottom_sheet);
+          bottomSheet.setBackgroundResource(R.drawable.ic_bottomsheet_new_background);
+          bottomSheet.getBackground().setColorFilter(
+              new PorterDuffColorFilter(backgroundColor, PorterDuff.Mode.SRC_ATOP));
+        }
+      }
       bottomSheetDialog.show();
     }
   }
 
   private void setupRecyclerView(View sheetView) {
     searchResults = new ArrayList<>();
-    searchResults.addAll(getAllCountries());
+    searchResults.addAll(countries);
     adapter = new CountriesAdapter(sheetView.getContext(), searchResults,
         new OnItemClickListener() {
           @Override public void onItemClicked(Country country) {
@@ -476,7 +491,7 @@ public class CountryPicker {
 
   private void search(String searchQuery) {
     searchResults.clear();
-    for (Country country : getAllCountries()) {
+    for (Country country : countries) {
       if (country.getName().toLowerCase(Locale.ENGLISH).contains(searchQuery.toLowerCase())) {
         searchResults.add(country);
       }
@@ -539,7 +554,6 @@ public class CountryPicker {
   }
 
   public Country getCountryByName(@NonNull String countryName) {
-    List<Country> countries = getAllCountries();
     Collections.sort(countries, new NameComparator());
     Country country = new Country();
     country.setName(countryName);
@@ -552,7 +566,6 @@ public class CountryPicker {
   }
 
   public Country getCountryByISO(@NonNull String countryIsoCode) {
-    List<Country> countries = getAllCountries();
     Collections.sort(countries, new ISOCodeComparator());
     Country country = new Country();
     country.setCode(countryIsoCode);
@@ -572,6 +585,7 @@ public class CountryPicker {
     private boolean canSearch = true;
     private OnCountryPickerListener onCountryPickerListener;
     private int style;
+    private int theme = THEME_NEW;
 
     public Builder with(@NonNull Context context) {
       this.context = context;
@@ -595,6 +609,11 @@ public class CountryPicker {
 
     public Builder canSearch(@NonNull boolean canSearch) {
       this.canSearch = canSearch;
+      return this;
+    }
+
+    public Builder theme(@NonNull int theme) {
+      this.theme = theme;
       return this;
     }
 

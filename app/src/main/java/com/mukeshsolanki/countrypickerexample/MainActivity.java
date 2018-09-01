@@ -30,8 +30,8 @@ public class MainActivity extends AppCompatActivity implements OnCountryPickerLi
     pickCountryButton.setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View v) {
-        countryPicker.showDialog(MainActivity.this);
-        //countryPicker.showBottomSheet(MainActivity.this);
+        //countryPicker.showDialog(MainActivity.this);
+        countryPicker.showBottomSheet(MainActivity.this);
       }
     });
   }
@@ -47,6 +47,7 @@ public class MainActivity extends AppCompatActivity implements OnCountryPickerLi
         new CountryPicker.Builder().with(this)
             //.style(R.style.CountryPickerStyle)
             .listener(this)
+            .theme(CountryPicker.THEME_OLD)
             .build();
   }
 

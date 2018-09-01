@@ -4,7 +4,6 @@
   <a href="https://jitpack.io/#mukeshsolanki/country-picker-android"> <img src="https://jitpack.io/v/mukeshsolanki/country-picker-android.svg" /></a>
   <a href="https://circleci.com/gh/mukeshsolanki/country-picker-android/tree/master"> <img src="https://circleci.com/gh/mukeshsolanki/country-picker-android/tree/master.svg?style=shield" /></a>
   <a href="https://opensource.org/licenses/Apache-2.0"><img src="https://img.shields.io/badge/License-Apache%202.0-blue.svg"/></a>
-  <a href="https://www.paypal.me/mukeshsolanki"> <img src="https://img.shields.io/badge/paypal-donate-yellow.svg" /></a>
   <br /><br />
 CountryPicker is a simple library that can be show a country picker. See the example to see more detail.
 </p>

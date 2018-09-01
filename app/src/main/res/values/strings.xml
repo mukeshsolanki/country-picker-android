@@ -1,4 +1,23 @@
 <resources>
   <string name="app_name">Country-Picker</string>
   <string name="pick_country">Pick Country</string>
+  <string name="country_picker">Country Picker</string>
+  <string name="country_name">Country Name</string>
+  <string name="country_iso_code">Country ISO Code</string>
+  <string name="country_dial_code">Country Dial Code</string>
+  <string name="country_currency">Country Currency</string>
+  <string name="country_flag">Country Flag</string>
+  <string name="new_theme">Use New Theme</string>
+  <string name="custom_style">Use Custom Style</string>
+  <string name="use_bottom_sheet">Use Bottom Sheet</string>
+  <string name="allow_search">Allow Search</string>
+  <string name="get_country_by_name">Get Country by Name</string>
+  <string name="get_country_by_sim">Get Country By Sim</string>
+  <string name="get_country_by_local">Get country By Local</string>
+  <string name="get_country_by_iso">Get Country By ISO</string>
+  <string name="iso_code">ISO Code</string>
+  <string name="dial_code">Dial Code</string>
+  <string name="name">Name</string>
+  <string name="none_default">None/Default</string>
+  <string name="sort_by">Sort By</string>
 </resources>

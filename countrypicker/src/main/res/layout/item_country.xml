@@ -3,6 +3,7 @@
     android:id="@+id/rootView"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:background="?android:selectableItemBackground"
     android:gravity="center_vertical"
     android:orientation="horizontal"
     >
@@ -22,6 +23,7 @@
       android:layout_height="wrap_content"
       android:gravity="center_vertical"
       android:padding="16dp"
+      android:textColor="@android:color/black"
       />
 
 </LinearLayout>

@@ -305,7 +305,6 @@ public class CountryPicker {
   private int sortBy = SORT_BY_NONE;
   private OnCountryPickerListener onCountryPickerListener;
   private boolean canSearch = true;
-  private Locale displayLocale = Locale.US;
 
   private List<Country> countries;
   private EditText searchEditText;

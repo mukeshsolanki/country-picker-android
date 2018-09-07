@@ -21,17 +21,15 @@ public class CountriesAdapter extends
   private List<Country> countries;
   private Context context;
   private int textColor;
-  private Locale displayLocale;
   // endregion
 
   //region Constructor
   public CountriesAdapter(Context context, List<Country> countries,
-      OnItemClickListener listener, int textColor, Locale displayLocale) {
+      OnItemClickListener listener, int textColor) {
     this.context = context;
     this.countries = countries;
     this.listener = listener;
     this.textColor = textColor;
-    this.displayLocale = displayLocale;
   }
   // endregion
 
@@ -45,7 +43,7 @@ public class CountriesAdapter extends
   @Override
   public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
     final Country country = countries.get(position);
-    holder.countryNameText.setText(country.getLocalizedName(displayLocale));
+    holder.countryNameText.setText(country.getName());
     holder.countryNameText.setTextColor(textColor == 0 ? Color.BLACK : textColor);
     country.loadFlagByCode(context);
     if (country.getFlag() != -1) {

@@ -18,12 +18,12 @@ public class Country {
   Country() {
   }
 
-  Country(String code, String name, String dialCode, int flag, String currency) {
+  Country(String code, String dialCode, int flag, String currency) {
     this.code = code;
-    this.name = name;
     this.dialCode = dialCode;
     this.flag = flag;
     this.currency = currency;
+    this.name = new Locale("", code).getDisplayName();
   }
   // endregion
 
@@ -49,10 +49,6 @@ public class Country {
 
   public String getName() {
     return name;
-  }
-
-  public String getLocalizedName(Locale locale) {
-    return new Locale("", code).getDisplayName(locale);
   }
 
   public void setName(String name) {
@@ -88,6 +84,11 @@ public class Country {
       e.printStackTrace();
       this.flag = -1;
     }
+  }
+
+  Country localize(Locale locale) {
+    name = new Locale("", code).getDisplayName(locale);
+    return this;
   }
   // endregion
 }

@@ -9,6 +9,7 @@ import android.graphics.PorterDuff;
 import android.graphics.PorterDuffColorFilter;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.annotation.StyleRes;
 import android.support.design.widget.BottomSheetDialog;
@@ -307,6 +308,7 @@ public class CountryPicker {
   private int sortBy = SORT_BY_NONE;
   private OnCountryPickerListener onCountryPickerListener;
   private boolean canSearch = true;
+  private Locale displayLocale = Locale.US;
 
   private List<Country> countries;
   private EditText searchEditText;
@@ -336,6 +338,7 @@ public class CountryPicker {
     context = builder.context;
     canSearch = builder.canSearch;
     theme = builder.theme;
+    displayLocale = builder.locale;
     countries = new ArrayList<>(Arrays.asList(COUNTRIES));
     sortCountries(countries);
   }
@@ -452,7 +455,8 @@ public class CountryPicker {
             }
           }
         },
-        textColor);
+        textColor,
+        displayLocale);
     countriesRecyclerView.setHasFixedSize(true);
     LinearLayoutManager layoutManager = new LinearLayoutManager(sheetView.getContext());
     layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
@@ -582,6 +586,15 @@ public class CountryPicker {
   }
   // endregion
 
+  private static Locale getCurrentLocale(Context context){
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N){
+      return context.getResources().getConfiguration().getLocales().get(0);
+    } else{
+      //noinspection deprecation
+      return context.getResources().getConfiguration().locale;
+    }
+  }
+
   // region Builder
   public static class Builder {
     private Context context;
@@ -590,9 +603,11 @@ public class CountryPicker {
     private OnCountryPickerListener onCountryPickerListener;
     private int style;
     private int theme = THEME_NEW;
+    private Locale locale;
 
     public Builder with(@NonNull Context context) {
       this.context = context;
+      this.locale = getCurrentLocale(context);
       return this;
     }
 
@@ -618,6 +633,11 @@ public class CountryPicker {
 
     public Builder theme(@NonNull int theme) {
       this.theme = theme;
+      return this;
+    }
+
+    public Builder locale(@NonNull Locale locale) {
+      this.locale = locale;
       return this;
     }
 

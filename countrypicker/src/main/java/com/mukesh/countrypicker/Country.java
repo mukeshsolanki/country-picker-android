@@ -51,6 +51,10 @@ public class Country {
     return name;
   }
 
+  public String getLocalizedName(Locale locale) {
+    return new Locale("", code).getDisplayName(locale);
+  }
+
   public void setName(String name) {
     this.name = name;
   }

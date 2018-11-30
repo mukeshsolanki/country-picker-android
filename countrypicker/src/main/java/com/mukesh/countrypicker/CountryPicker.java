@@ -11,8 +11,8 @@ import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.support.annotation.NonNull;
 import android.support.annotation.StyleRes;
-import android.support.design.widget.BottomSheetDialog;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.telephony.TelephonyManager;
@@ -23,9 +23,11 @@ import android.view.View;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
-import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import com.mukesh.countrypicker.listeners.BottomSheetInteractionListener;
+import com.mukesh.countrypicker.listeners.OnCountryPickerListener;
+import com.mukesh.countrypicker.listeners.OnItemClickListener;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -33,7 +35,7 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Locale;
 
-public class CountryPicker {
+public class CountryPicker implements BottomSheetInteractionListener {
 
   // region Countries
   private final Country[] COUNTRIES = {
@@ -319,7 +321,7 @@ public class CountryPicker {
   private Drawable searchIcon;
   private CountriesAdapter adapter;
   private List<Country> searchResults;
-  private BottomSheetDialog bottomSheetDialog;
+  private BottomSheetDialogView bottomSheetDialog;
   private Dialog dialog;
   // endregion
 
@@ -401,34 +403,17 @@ public class CountryPicker {
   }
 
   // region BottomSheet Methods
-  public void showBottomSheet(Activity activity) {
+  public void showBottomSheet(AppCompatActivity activity) {
     if (countries == null || countries.isEmpty()) {
       throw new IllegalArgumentException(context.getString(R.string.error_no_countries_found));
     } else {
-      bottomSheetDialog = new BottomSheetDialog(activity);
-      View sheetView = activity.getLayoutInflater().inflate(R.layout.country_picker, null);
-      initiateUi(sheetView);
-      setCustomStyle(sheetView);
-      setSearchEditText();
-      setupRecyclerView(sheetView);
-      bottomSheetDialog.setContentView(sheetView);
-      if (theme == THEME_NEW && bottomSheetDialog.getWindow() != null) {
-        FrameLayout bottomSheet = bottomSheetDialog.getWindow()
-            .findViewById(android.support.design.R.id.design_bottom_sheet);
-        bottomSheet.setBackgroundColor(Color.TRANSPARENT);
-        Drawable background =
-            ContextCompat.getDrawable(context, R.drawable.ic_bottomsheet_new_background);
-        if (background != null) {
-          background.setColorFilter(
-              new PorterDuffColorFilter(backgroundColor, PorterDuff.Mode.SRC_ATOP));
-        }
-        rootView.setBackgroundDrawable(background);
-      }
-      bottomSheetDialog.show();
+      bottomSheetDialog = BottomSheetDialogView.newInstance(theme);
+      bottomSheetDialog.setListener(this);
+      bottomSheetDialog.show(activity.getSupportFragmentManager(), "bottomsheet");
     }
   }
 
-  private void setupRecyclerView(View sheetView) {
+  @Override public void setupRecyclerView(View sheetView) {
     searchResults = new ArrayList<>();
     searchResults.addAll(countries);
     adapter = new CountriesAdapter(sheetView.getContext(), searchResults,
@@ -460,7 +445,7 @@ public class CountryPicker {
     countriesRecyclerView.setAdapter(adapter);
   }
 
-  private void setSearchEditText() {
+  @Override public void setSearchEditText() {
     if (canSearch) {
       searchEditText.addTextChangedListener(new TextWatcher() {
         @Override
@@ -505,7 +490,7 @@ public class CountryPicker {
   }
 
   @SuppressWarnings("ResourceType")
-  private void setCustomStyle(View sheetView) {
+  @Override public void setCustomStyle(View sheetView) {
     if (style != 0) {
       int[] attrs =
           {
@@ -529,7 +514,7 @@ public class CountryPicker {
     }
   }
 
-  private void initiateUi(View sheetView) {
+  @Override public void initiateUi(View sheetView) {
     searchEditText = sheetView.findViewById(R.id.country_code_picker_search);
     countriesRecyclerView = sheetView.findViewById(R.id.countries_recycler_view);
     rootView = sheetView.findViewById(R.id.rootView);

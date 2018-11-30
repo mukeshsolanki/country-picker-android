@@ -14,7 +14,7 @@ import android.widget.RadioGroup;
 import android.widget.Toast;
 import com.mukesh.countrypicker.Country;
 import com.mukesh.countrypicker.CountryPicker;
-import com.mukesh.countrypicker.OnCountryPickerListener;
+import com.mukesh.countrypicker.listeners.OnCountryPickerListener;
 import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity implements OnCountryPickerListener {

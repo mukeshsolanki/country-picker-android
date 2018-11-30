@@ -21,10 +21,10 @@ android {
 
 dependencies {
   implementation fileTree(dir: 'libs', include: ['*.jar'])
-  implementation 'com.android.support:appcompat-v7:28.0.0-rc02'
-  implementation('com.android.support:design:28.0.0-rc01') {
+  implementation 'com.android.support:appcompat-v7:28.0.0'
+  implementation('com.android.support:design:28.0.0') {
     exclude group: 'com.android.support', module: 'asynclayoutinflater'
     exclude group: 'com.android.support', module: 'animated-vector-drawable'
   }
-  implementation 'com.android.support:recyclerview-v7:28.0.0-rc02'
+  implementation 'com.android.support:recyclerview-v7:28.0.0'
 }

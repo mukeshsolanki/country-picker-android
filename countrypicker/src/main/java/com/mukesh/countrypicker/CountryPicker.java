@@ -527,6 +527,10 @@ public class CountryPicker implements BottomSheetInteractionListener {
     sortCountries(this.countries);
   }
 
+  public List<Country> getAllCountries(){
+    return countries;
+  }
+  
   public Country getCountryFromSIM() {
     TelephonyManager telephonyManager =
         (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);

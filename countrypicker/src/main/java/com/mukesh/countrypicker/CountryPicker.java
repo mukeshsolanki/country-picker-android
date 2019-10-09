@@ -338,7 +338,17 @@ public class CountryPicker implements BottomSheetInteractionListener {
     context = builder.context;
     canSearch = builder.canSearch;
     theme = builder.theme;
-    countries = new ArrayList<>(Arrays.asList(COUNTRIES));
+    if (builder.isoCodesToInclude == null || builder.isoCodesToInclude.isEmpty()) {
+      countries = new ArrayList<>(Arrays.asList(COUNTRIES));
+    } else {
+      List<Country> filtered = new ArrayList<>(builder.isoCodesToInclude.size());
+      for (Country country: COUNTRIES) {
+        if (builder.isoCodesToInclude.contains(country.getCode())) {
+          filtered.add(country);
+        }
+      }
+      countries = filtered;
+    }
     sortCountries(countries);
   }
   // endregion
@@ -575,6 +585,7 @@ public class CountryPicker implements BottomSheetInteractionListener {
     private OnCountryPickerListener onCountryPickerListener;
     private int style;
     private int theme = THEME_NEW;
+    private List<String> isoCodesToInclude;
 
     public Builder with(@NonNull Context context) {
       this.context = context;
@@ -603,6 +614,11 @@ public class CountryPicker implements BottomSheetInteractionListener {
 
     public Builder theme(@NonNull int theme) {
       this.theme = theme;
+      return this;
+    }
+
+    public Builder isoCodesToInclude(@NonNull List<String> isoCodesToInclude) {
+      this.isoCodesToInclude = isoCodesToInclude;
       return this;
     }
 

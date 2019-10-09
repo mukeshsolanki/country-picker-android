@@ -11,6 +11,8 @@
   <string name="custom_style">Use Custom Style</string>
   <string name="use_bottom_sheet">Use Bottom Sheet</string>
   <string name="allow_search">Allow Search</string>
+  <string name="allow_filtered_search">Filter ISO CODES\n(comma separated)</string>
+  <string name="allow_filtered_search_hint">IT,FR</string>
   <string name="get_country_by_name">Get Country by Name</string>
   <string name="get_country_by_sim">Get Country By Sim</string>
   <string name="get_country_by_local">Get country By Local</string>

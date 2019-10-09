@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.AppCompatEditText;
 import android.support.v7.widget.SwitchCompat;
 import android.text.InputType;
 import android.view.View;
@@ -15,6 +16,8 @@ import android.widget.Toast;
 import com.mukesh.countrypicker.Country;
 import com.mukesh.countrypicker.CountryPicker;
 import com.mukesh.countrypicker.listeners.OnCountryPickerListener;
+
+import java.util.Arrays;
 import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity implements OnCountryPickerListener {
@@ -24,6 +27,7 @@ public class MainActivity extends AppCompatActivity implements OnCountryPickerLi
   private CountryPicker countryPicker;
   private SwitchCompat themeSwitch, styleSwitch, useBottomSheet, searchSwitch;
   private RadioGroup sortByRadioGroup;
+  private AppCompatEditText filteredIsoCodes;
   private int sortBy = CountryPicker.SORT_BY_NONE;
 
   @Override
@@ -191,6 +195,9 @@ public class MainActivity extends AppCompatActivity implements OnCountryPickerLi
     builder.theme(themeSwitch.isChecked() ? CountryPicker.THEME_NEW : CountryPicker.THEME_OLD);
     builder.canSearch(searchSwitch.isChecked());
     builder.sortBy(sortBy);
+    if (filteredIsoCodes.getText() != null && !filteredIsoCodes.getText().toString().isEmpty()) {
+      builder.isoCodesToInclude(Arrays.asList(filteredIsoCodes.getText().toString().split(",")));
+    }
     countryPicker = builder.build();
     if (useBottomSheet.isChecked()) {
       countryPicker.showBottomSheet(MainActivity.this);
@@ -210,6 +217,7 @@ public class MainActivity extends AppCompatActivity implements OnCountryPickerLi
     findBySimButton = findViewById(R.id.by_sim_button);
     findByLocaleButton = findViewById(R.id.by_local_button);
     findByIsoButton = findViewById(R.id.by_iso_button);
+    filteredIsoCodes = findViewById(R.id.filter);
   }
 
   @Override

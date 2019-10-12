@@ -1,7 +1,9 @@
 package com.mukesh.countrypicker;
 
-import android.app.Activity;
 import android.app.Dialog;
+import android.arch.lifecycle.Lifecycle;
+import android.arch.lifecycle.LifecycleObserver;
+import android.arch.lifecycle.OnLifecycleEvent;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Color;
@@ -35,7 +37,7 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Locale;
 
-public class CountryPicker implements BottomSheetInteractionListener {
+public class CountryPicker implements BottomSheetInteractionListener, LifecycleObserver {
 
   // region Countries
   private final Country[] COUNTRIES = {
@@ -371,10 +373,11 @@ public class CountryPicker implements BottomSheetInteractionListener {
   // endregion
 
   // region Utility Methods
-  public void showDialog(@NonNull Activity activity) {
+  public void showDialog(@NonNull AppCompatActivity activity) {
     if (countries == null || countries.isEmpty()) {
       throw new IllegalArgumentException(context.getString(R.string.error_no_countries_found));
     } else {
+      activity.getLifecycle().addObserver(this);
       dialog = new Dialog(activity);
       View dialogView = activity.getLayoutInflater().inflate(R.layout.country_picker, null);
       initiateUi(dialogView);
@@ -407,9 +410,20 @@ public class CountryPicker implements BottomSheetInteractionListener {
     if (countries == null || countries.isEmpty()) {
       throw new IllegalArgumentException(context.getString(R.string.error_no_countries_found));
     } else {
+      activity.getLifecycle().addObserver(this);
       bottomSheetDialog = BottomSheetDialogView.newInstance(theme);
       bottomSheetDialog.setListener(this);
       bottomSheetDialog.show(activity.getSupportFragmentManager(), "bottomsheet");
+    }
+  }
+
+  @OnLifecycleEvent(Lifecycle.Event.ON_STOP)
+  private void dismissDialogs() {
+    if (bottomSheetDialog != null) {
+      bottomSheetDialog.dismiss();
+    }
+    if (dialog != null) {
+      dialog.dismiss();
     }
   }
 

@@ -25,9 +25,11 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
 import com.mukesh.countrypicker.listeners.BottomSheetInteractionListener;
 import com.mukesh.countrypicker.listeners.OnCountryPickerListener;
 import com.mukesh.countrypicker.listeners.OnItemClickListener;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -309,6 +311,7 @@ public class CountryPicker implements BottomSheetInteractionListener {
   private int sortBy = SORT_BY_NONE;
   private OnCountryPickerListener onCountryPickerListener;
   private boolean canSearch = true;
+  private boolean putDeviceLocaleToFirst = false;
 
   private List<Country> countries;
   private EditText searchEditText;
@@ -338,8 +341,18 @@ public class CountryPicker implements BottomSheetInteractionListener {
     context = builder.context;
     canSearch = builder.canSearch;
     theme = builder.theme;
+    putDeviceLocaleToFirst = builder.putDeviceLocaleToFirst;
     countries = new ArrayList<>(Arrays.asList(COUNTRIES));
     sortCountries(countries);
+
+    if (putDeviceLocaleToFirst) {
+      String isoCode = Locale.getDefault().getCountry();
+      Country country = getCountryByISO(isoCode);
+      if (country != null && countries.remove(country)) {
+        countries.add(0, country);
+      }
+    }
+
   }
   // endregion
 
@@ -575,6 +588,7 @@ public class CountryPicker implements BottomSheetInteractionListener {
     private OnCountryPickerListener onCountryPickerListener;
     private int style;
     private int theme = THEME_NEW;
+    private boolean putDeviceLocaleToFirst = false;
 
     public Builder with(@NonNull Context context) {
       this.context = context;
@@ -603,6 +617,11 @@ public class CountryPicker implements BottomSheetInteractionListener {
 
     public Builder theme(@NonNull int theme) {
       this.theme = theme;
+      return this;
+    }
+
+    public Builder setDeviceLocaleToFirst(@NonNull boolean  putDeviceLocaleToFirst) {
+      this.putDeviceLocaleToFirst = putDeviceLocaleToFirst;
       return this;
     }
 

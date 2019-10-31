@@ -2,14 +2,16 @@ package com.mukesh.countrypicker;
 
 import android.content.Context;
 import android.graphics.Color;
-import android.support.annotation.NonNull;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.mukesh.countrypicker.listeners.OnItemClickListener;
 import java.util.List;
 
@@ -34,7 +36,8 @@ public class CountriesAdapter extends
   // endregion
 
   // region Adapter Methods
-  @NonNull @Override
+  @NonNull
+  @Override
   public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
     View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_country, parent, false);
     return new ViewHolder(v);

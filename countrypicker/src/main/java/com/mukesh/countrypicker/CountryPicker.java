@@ -1,9 +1,6 @@
 package com.mukesh.countrypicker;
 
 import android.app.Dialog;
-import android.arch.lifecycle.Lifecycle;
-import android.arch.lifecycle.LifecycleObserver;
-import android.arch.lifecycle.OnLifecycleEvent;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Color;
@@ -11,12 +8,6 @@ import android.graphics.PorterDuff;
 import android.graphics.PorterDuffColorFilter;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
-import android.support.annotation.NonNull;
-import android.support.annotation.StyleRes;
-import android.support.v4.content.ContextCompat;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.telephony.TelephonyManager;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -27,6 +18,17 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.StyleRes;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
+import androidx.lifecycle.Lifecycle;
+import androidx.lifecycle.LifecycleObserver;
+import androidx.lifecycle.OnLifecycleEvent;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.mukesh.countrypicker.listeners.BottomSheetInteractionListener;
 import com.mukesh.countrypicker.listeners.OnCountryPickerListener;
 import com.mukesh.countrypicker.listeners.OnItemClickListener;
@@ -534,12 +536,6 @@ public class CountryPicker implements BottomSheetInteractionListener, LifecycleO
     rootView = sheetView.findViewById(R.id.rootView);
   }
   // endregion
-
-  public void setCountries(@NonNull List<Country> countries) {
-    this.countries.clear();
-    this.countries.addAll(countries);
-    sortCountries(this.countries);
-  }
 
   public Country getCountryFromSIM() {
     TelephonyManager telephonyManager =

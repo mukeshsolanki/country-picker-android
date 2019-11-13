@@ -21,8 +21,8 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.StyleRes;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
+import androidx.fragment.app.FragmentActivity;
 import androidx.lifecycle.Lifecycle;
 import androidx.lifecycle.LifecycleObserver;
 import androidx.lifecycle.OnLifecycleEvent;
@@ -375,7 +375,7 @@ public class CountryPicker implements BottomSheetInteractionListener, LifecycleO
   // endregion
 
   // region Utility Methods
-  public void showDialog(@NonNull AppCompatActivity activity) {
+  public void showDialog(@NonNull FragmentActivity activity) {
     if (countries == null || countries.isEmpty()) {
       throw new IllegalArgumentException(context.getString(R.string.error_no_countries_found));
     } else {
@@ -408,7 +408,7 @@ public class CountryPicker implements BottomSheetInteractionListener, LifecycleO
   }
 
   // region BottomSheet Methods
-  public void showBottomSheet(AppCompatActivity activity) {
+  public void showBottomSheet(FragmentActivity activity) {
     if (countries == null || countries.isEmpty()) {
       throw new IllegalArgumentException(context.getString(R.string.error_no_countries_found));
     } else {

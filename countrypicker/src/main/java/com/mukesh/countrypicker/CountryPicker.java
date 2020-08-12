@@ -548,7 +548,7 @@ public class CountryPicker implements BottomSheetInteractionListener, LifecycleO
   }
 
   public Country getCountryByLocale(@NonNull Locale locale) {
-    String countryIsoCode = locale.getISO3Country().substring(0, 2).toLowerCase();
+    String countryIsoCode = locale.getCountry();
     return getCountryByISO(countryIsoCode);
   }
 

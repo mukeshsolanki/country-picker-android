@@ -3,7 +3,7 @@
   <a class="badge-align" href="https://www.codacy.com/app/mukeshsolanki/country-picker-android?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=mukeshsolanki/country-picker-android&amp;utm_campaign=Badge_Grade"><img src="https://api.codacy.com/project/badge/Grade/3dc5d577c3a14413b871ee8bb53c6e80"/></a>
   <a href="https://jitpack.io/#mukeshsolanki/country-picker-android"> <img src="https://jitpack.io/v/mukeshsolanki/country-picker-android/month.svg" /></a>
   <a href="https://jitpack.io/#mukeshsolanki/country-picker-android"> <img src="https://jitpack.io/v/mukeshsolanki/country-picker-android.svg" /></a>
-  <a href="https://circleci.com/gh/mukeshsolanki/country-picker-android/tree/master"> <img src="https://circleci.com/gh/mukeshsolanki/country-picker-android/tree/master.svg?style=shield" /></a>
+  <a href="https://github.com/mukeshsolanki/country-picker-android/actions"> <img src="https://github.com/mukeshsolanki/country-picker-android/workflows/Build/badge.svg" /></a>
   <a href="https://opensource.org/licenses/MIT"><img src="https://img.shields.io/badge/License-MIT-blue.svg"/></a>
   <br /><br />
 CountryPicker is a simple library that can be show a country picker. See the example to see more detail.

@@ -564,6 +564,18 @@ public class CountryPicker implements BottomSheetInteractionListener, LifecycleO
       return countries.get(i);
     }
   }
+
+  public Country getCountryByDialCode(@NonNull String dialCode){
+    Collections.sort(countries, new DialCodeComparator());
+    Country country = new Country();
+    country.setDialCode(dialCode);
+    int i = Collections.binarySearch(countries, country, new DialCodeComparator());
+    if (i < 0) {
+      return null;
+    } else {
+      return countries.get(i);
+    }
+  }
   // endregion
 
   // region Builder
@@ -612,17 +624,24 @@ public class CountryPicker implements BottomSheetInteractionListener, LifecycleO
   // endregion
 
   // region Comparators
-  public static class ISOCodeComparator implements Comparator<Country> {
+  private static class ISOCodeComparator implements Comparator<Country> {
     @Override
     public int compare(Country country, Country nextCountry) {
       return country.getCode().compareToIgnoreCase(nextCountry.getCode());
     }
   }
 
-  public static class NameComparator implements Comparator<Country> {
+  private static class NameComparator implements Comparator<Country> {
     @Override
     public int compare(Country country, Country nextCountry) {
       return country.getName().compareToIgnoreCase(nextCountry.getName());
+    }
+  }
+
+  public static class DialCodeComparator implements  Comparator<Country>{
+    @Override
+    public int compare(Country country, Country nextCountry) {
+      return country.getDialCode().compareTo(nextCountry.getDialCode());
     }
   }
   // endregion

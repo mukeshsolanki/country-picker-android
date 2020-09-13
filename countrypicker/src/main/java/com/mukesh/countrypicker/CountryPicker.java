@@ -421,6 +421,7 @@ public class CountryPicker implements BottomSheetInteractionListener, LifecycleO
   @Override public void setupRecyclerView(View sheetView) {
     searchResults = new ArrayList<>();
     searchResults.addAll(countries);
+    sortCountries(searchResults);
     adapter = new CountriesAdapter(sheetView.getContext(), searchResults,
         new OnItemClickListener() {
           @Override public void onItemClicked(Country country) {

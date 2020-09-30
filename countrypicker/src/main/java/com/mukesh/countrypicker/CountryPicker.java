@@ -370,7 +370,7 @@ public class CountryPicker implements BottomSheetInteractionListener, LifecycleO
     } else {
       activity.getLifecycle().addObserver(this);
       dialog = new Dialog(activity);
-      View dialogView = activity.getLayoutInflater().inflate(R.layout.country_picker, null);
+      View dialogView = activity.getLayoutInflater().inflate(R.layout.country_picker_android_dialog, null);
       initiateUi(dialogView);
       setCustomStyle(dialogView);
       setSearchEditText();

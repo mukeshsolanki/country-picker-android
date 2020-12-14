@@ -1,7 +1,7 @@
-package com.mukesh.countrypicker.listeners;
+package com.mukesh.countrypicker.listeners
 
-import com.mukesh.countrypicker.Country;
+import com.mukesh.countrypicker.Country
 
-public interface OnCountryPickerListener {
-  void onSelectCountry(Country country);
+interface OnCountryPickerListener {
+    fun onSelectCountry(country: Country?)
 }

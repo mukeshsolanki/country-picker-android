@@ -402,7 +402,7 @@ public class CountryPicker implements BottomSheetInteractionListener, LifecycleO
       throw new IllegalArgumentException(context.getString(R.string.error_no_countries_found));
     } else {
       activity.getLifecycle().addObserver(this);
-      bottomSheetDialog = BottomSheetDialogView.newInstance(theme);
+      bottomSheetDialog = BottomSheetDialogView.Companion.newInstance(theme);
       bottomSheetDialog.setListener(this);
       bottomSheetDialog.show(activity.getSupportFragmentManager(), "bottomsheet");
     }

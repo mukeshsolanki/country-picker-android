@@ -1,89 +1,53 @@
-package com.mukesh.countrypicker;
+package com.mukesh.countrypicker
 
-import android.content.Context;
-import android.text.TextUtils;
-import java.util.Locale;
+import android.content.Context
+import android.text.TextUtils
+import java.util.*
 
-public class Country {
+class Country {
+    // region Variables
+    private var code: String? = null
+    var name: String? = null
+    var dialCode: String? = null
+    var flag = 0
 
-  // region Variables
-  private String code;
-  private String name;
-  private String dialCode;
-  private int flag;
-  private String currency;
-  // endregion
+    // endregion
+    // region Getter/Setter
+    var currency: String? = null
 
-  // region Constructors
-  Country() {
-  }
-
-  Country(String code, String name, String dialCode, int flag, String currency) {
-    this.code = code;
-    this.name = name;
-    this.dialCode = dialCode;
-    this.flag = flag;
-    this.currency = currency;
-  }
-  // endregion
-
-  // region Getter/Setter
-  public String getCurrency() {
-    return currency;
-  }
-
-  public void setCurrency(String currency) {
-    this.currency = currency;
-  }
-
-  public String getCode() {
-    return code;
-  }
-
-  public void setCode(String code) {
-    this.code = code;
-    if (TextUtils.isEmpty(name)) {
-      name = new Locale("", code).getDisplayName();
-    }
-  }
-
-  public String getName() {
-    return name;
-  }
-
-  public void setName(String name) {
-    this.name = name;
-  }
-
-  public String getDialCode() {
-    return dialCode;
-  }
-
-  public void setDialCode(String dialCode) {
-    this.dialCode = dialCode;
-  }
-
-  public int getFlag() {
-    return flag;
-  }
-
-  public void setFlag(int flag) {
-    this.flag = flag;
-  }
-
-  public void loadFlagByCode(Context context) {
-    if (this.flag != -1) {
-      return;
+    // endregion
+    // region Constructors
+    internal constructor()
+    internal constructor(code: String?, name: String?, dialCode: String?, flag: Int, currency: String?) {
+        this.code = code
+        this.name = name
+        this.dialCode = dialCode
+        this.flag = flag
+        this.currency = currency
     }
 
-    try {
-      this.flag = context.getResources()
-          .getIdentifier("flag_" + this.code.toLowerCase(Locale.ENGLISH), "drawable",
-              context.getPackageName());
-    } catch (Exception e) {
-      e.printStackTrace();
-      this.flag = -1;
+    fun getCode(): String? {
+        return code
     }
-  }
-  // endregion
+
+    fun setCode(code: String?) {
+        this.code = code
+        if (TextUtils.isEmpty(name)) {
+            name = Locale("", code).displayName
+        }
+    }
+
+    fun loadFlagByCode(context: Context) {
+        if (flag != -1) {
+            return
+        }
+        flag = try {
+            context.resources
+                    .getIdentifier("flag_" + code!!.toLowerCase(Locale.ENGLISH), "drawable",
+                            context.packageName)
+        } catch (e: Exception) {
+            e.printStackTrace()
+            -1
+        }
+    } // endregion
 }
